@@ -13,11 +13,13 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import pl.wojdylak.propsi.model.LoginCredentials;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,6 +29,7 @@ import java.util.stream.Collectors;
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
 
+
     public CustomAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
@@ -34,10 +37,28 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         //username u mnie to email, ale form login w spring przesyla username
-        String email = request.getParameter("username");
-        String password = request.getParameter("password");
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email, password);
-        return authenticationManager.authenticate(authenticationToken);
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            BufferedReader reader = request.getReader();
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
+            LoginCredentials authRequest = objectMapper.readValue(sb.toString(), LoginCredentials.class);
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+                    authRequest.getEmail(), authRequest.getPassword()
+            );
+            setDetails(request, token);
+            return authenticationManager.authenticate(token);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+
+//        String email = request.getParameter("username");
+//        String password = request.getParameter("password");
+//        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email, password);
+//        return authenticationManager.authenticate(authenticationToken);
     }
 
     @Override
