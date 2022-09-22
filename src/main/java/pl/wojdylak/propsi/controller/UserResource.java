@@ -28,17 +28,17 @@ public class UserResource {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
-    @GetMapping("/test")
+//    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.OWNER + "\")")
+    @GetMapping("/testOwner")
     public ResponseEntity<String> test(){
         System.out.println(SecurityContextHolder.getContext().getAuthentication());
         return new ResponseEntity<>("test", HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.USER + "\")")
-    @GetMapping("/testUser")
+//    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.TENANT + "\")")
+    @GetMapping("/testTenant")
     public ResponseEntity<String> testUser(){
-        List<User> users = userService.getAllUsers();
+        System.out.println(SecurityContextHolder.getContext().getAuthentication());
         return new ResponseEntity<>("test", HttpStatus.OK);
     }
 

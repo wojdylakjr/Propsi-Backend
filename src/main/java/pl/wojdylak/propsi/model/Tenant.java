@@ -12,10 +12,17 @@ public class Tenant {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+//    @Column(name = "name")
+//    private String name;
 
     @ManyToMany
     @JoinTable(name = "rel_tenant_user", joinColumns = @JoinColumn(name = "tenant_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users = new HashSet<>();
+
+    public Tenant(){
+    }
+
+    public Tenant(Set<User> users) {
+        this.users = users;
+    }
 }

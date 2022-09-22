@@ -11,11 +11,18 @@ public class Owner {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-
-    @Column(name = "name")
-    private String name;
+//
+//    @Column(name = "name")
+//    private String name;
 
     @ManyToMany
     @JoinTable(name = "rel_owner_user", joinColumns = @JoinColumn(name = "owner_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users = new HashSet<>();
+
+    public Owner(){
+    }
+
+    public Owner(Set<User> users) {
+        this.users = users;
+    }
 }
