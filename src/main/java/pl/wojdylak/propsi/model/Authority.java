@@ -42,6 +42,7 @@ public class Authority {
         return Objects.equals(name, ((Authority) o).name);
     }
 
+
     @Override
     public int hashCode() {
         return Objects.hashCode(name);

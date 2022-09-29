@@ -1,5 +1,6 @@
 package pl.wojdylak.propsi.service;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.wojdylak.propsi.model.Authority;
@@ -7,13 +8,13 @@ import pl.wojdylak.propsi.model.Owner;
 import pl.wojdylak.propsi.model.Tenant;
 import pl.wojdylak.propsi.model.User;
 import pl.wojdylak.propsi.repository.AuthorityRepository;
-import pl.wojdylak.propsi.repository.OwnerRepository;
-import pl.wojdylak.propsi.repository.TenantRepository;
 import pl.wojdylak.propsi.repository.UserRepository;
+import pl.wojdylak.propsi.service.dto.ManagedUser;
 import pl.wojdylak.propsi.service.dto.UserDto;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 
@@ -22,19 +23,20 @@ public class UserService {
     private final UserRepository userRepository;
     private final AuthorityRepository authorityRepository;
     private final PasswordEncoder passwordEncoder;
-    private final OwnerRepository ownerRepository;
-    private final TenantRepository tenantRepository;
 
-    public UserService(UserRepository userRepository, AuthorityRepository authorityRepository, PasswordEncoder passwordEncoder, OwnerRepository ownerRepository, TenantRepository tenantRepository) {
+    private final OwnerService ownerService;
+    private final TenantService tenantService;
+
+    public UserService(UserRepository userRepository, AuthorityRepository authorityRepository, PasswordEncoder passwordEncoder, OwnerService ownerService, TenantService tenantService) {
         this.userRepository = userRepository;
         this.authorityRepository = authorityRepository;
         this.passwordEncoder = passwordEncoder;
-        this.ownerRepository = ownerRepository;
-        this.tenantRepository = tenantRepository;
+        this.ownerService = ownerService;
+        this.tenantService = tenantService;
     }
 
 
-    public User register(UserDto user) {
+    public User register(ManagedUser user) {
         User newUser = new User();
         newUser.setFirstName(user.getFirstName());
         newUser.setLastName(user.getLastName());
@@ -47,44 +49,42 @@ public class UserService {
             authorityRepository.save(authority);
         }
         newUser.setAuthorities(authoritySet);
+        createAccountsForUser(user, newUser);
         System.out.println(newUser);
         userRepository.save(newUser);
-        setRoleForUser(user, newUser);
         return newUser;
 
     }
 
-    private void setRoleForUser(UserDto user, User newUser) {
-        HashSet<User> currentUserHashSet = new HashSet<>();
-        currentUserHashSet.add(newUser);
+    private void createAccountsForUser(UserDto user, User newUser) {
+        String ownerName = "Default owner account name";
+        String tenantName = "Default tenant account name";
 
         if (user.getAuthorities().contains("ROLE_TENANT") && user.getAuthorities().contains("ROLE_OWNER")) {
-            insertUserIntoTenant(currentUserHashSet);
-            insertUserIntoOwner(currentUserHashSet);
+            newUser.addOwner(new Owner(ownerName));
+            newUser.addTenant(new Tenant(tenantName));
+            return;
         }
 
         if (user.getAuthorities().contains("ROLE_TENANT")) {
-            insertUserIntoTenant(currentUserHashSet);
+            newUser.addTenant(new Tenant(tenantName));
+            return;
         }
 
         if (user.getAuthorities().contains("ROLE_OWNER")) {
-            insertUserIntoOwner(currentUserHashSet);
+            newUser.addOwner(new Owner(ownerName));
         }
 
-    }
-
-    private void insertUserIntoOwner(HashSet<User> currentUserHashSet) {
-        Owner owner = new Owner(currentUserHashSet);
-        ownerRepository.save(owner);
-    }
-
-    private void insertUserIntoTenant(HashSet<User> currentUserHashSet) {
-        Tenant tenant = new Tenant(currentUserHashSet);
-        tenantRepository.save(tenant);
     }
 
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public Optional<User> getCurrentUser() {
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println("Security context: " + name);
+        return userRepository.findByEmail(name);
     }
 }

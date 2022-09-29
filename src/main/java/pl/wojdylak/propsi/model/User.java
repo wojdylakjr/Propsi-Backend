@@ -28,11 +28,28 @@ public class User {
 
     @ManyToMany
     @JoinTable(
-            name = "user_authority",
+            name = "rel_user_authority",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")}
     )
     private Set<Authority> authorities = new HashSet<>();
+
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(
+            name = "rel_user_owner",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "owner_id")
+    )
+    private Set<Owner> owners = new HashSet<>();
+
+
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(
+            name = "rel_user_tenant",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "tenant_id")
+    )
+    private Set<Tenant> tenants = new HashSet<>();
 
     public User() {
     }
@@ -94,6 +111,42 @@ public class User {
         this.authorities = authorities;
     }
 
+    public Set<Owner> getOwners() {
+        return owners;
+    }
+
+    public void setOwners(Set<Owner> owners) {
+        this.owners = owners;
+    }
+
+    public Set<Tenant> getTenants() {
+        return tenants;
+    }
+
+    public void setTenants(Set<Tenant> tenants) {
+        this.tenants = tenants;
+    }
+
+    public void addOwner(Owner owner){
+        this.owners.add(owner);
+        owner.getUsers().add(this);
+    }
+
+    public void removeOwner(Owner owner){
+        this.owners.remove(owner);
+        owner.getUsers().remove(this);
+    }
+
+    public void addTenant(Tenant tenant){
+        this.tenants.add(tenant);
+        tenant.getUsers().add(this);
+    }
+
+    public void removeTenant(Tenant tenant){
+        this.tenants.remove(tenant);
+        tenant.getUsers().remove(this);
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -103,6 +156,8 @@ public class User {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", authorities=" + authorities +
+                ", owners=" + owners +
+                ", tenants=" + tenants +
                 '}';
     }
 }

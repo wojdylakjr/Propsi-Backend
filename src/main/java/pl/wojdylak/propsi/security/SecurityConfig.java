@@ -46,13 +46,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests()
+                .antMatchers("/api/account").authenticated()
+                .antMatchers("/logout").permitAll()
                 .antMatchers("/h2/**").permitAll()
                 .antMatchers("/api/register").permitAll()
                 .antMatchers("/api/users").permitAll()
 
                 .antMatchers("/api/testOwner").hasAuthority(AuthoritiesConstants.OWNER)
                 .antMatchers("api/testTenant").hasAuthority(AuthoritiesConstants.TENANT)
-                .antMatchers("/api/**").authenticated()
                 .and()
                 .formLogin().permitAll();
 

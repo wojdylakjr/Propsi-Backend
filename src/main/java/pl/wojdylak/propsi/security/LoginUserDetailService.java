@@ -27,10 +27,10 @@ public class LoginUserDetailService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
-        }
+        User user = userRepository.findByEmail(username).get();
+//        if (user == null) {
+//            throw new UsernameNotFoundException("User not found");
+//        }
         List<GrantedAuthority> grantedAuthorities = user
                 .getAuthorities()
                 .stream()
