@@ -49,16 +49,16 @@ public class UserService {
             authorityRepository.save(authority);
         }
         newUser.setAuthorities(authoritySet);
-        createAccountsForUser(user, newUser);
+        createProfilesForUser(user, newUser);
         System.out.println(newUser);
         userRepository.save(newUser);
         return newUser;
 
     }
 
-    private void createAccountsForUser(UserDto user, User newUser) {
-        String ownerName = "Default owner account name";
-        String tenantName = "Default tenant account name";
+    private void createProfilesForUser(UserDto user, User newUser) {
+        String ownerName = "Owner " + newUser.getFirstName() + " " + newUser.getLastName();
+        String tenantName = "Tenant "+ newUser.getFirstName() + " " + newUser.getLastName();
 
         if (user.getAuthorities().contains("ROLE_TENANT") && user.getAuthorities().contains("ROLE_OWNER")) {
             newUser.addOwner(new Owner(ownerName));
