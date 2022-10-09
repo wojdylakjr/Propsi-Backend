@@ -17,6 +17,9 @@ public class Tenant {
     @Column(name = "name")
     private String name;
 
+    @OneToMany(mappedBy = "premises")
+    private Set<Rental> rentals = new HashSet<>();
+
     @JsonIgnore
     @ManyToMany(mappedBy = "tenants")
     private Set<User> users = new HashSet<>();
@@ -55,5 +58,22 @@ public class Tenant {
 
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    //from https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Tenant)) {
+            return false;
+        }
+        return id != null && id.equals(((Tenant) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

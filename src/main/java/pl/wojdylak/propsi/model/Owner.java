@@ -1,9 +1,12 @@
 package pl.wojdylak.propsi.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -16,6 +19,9 @@ public class Owner {
 
     @Column(name = "name")
     private String name;
+
+    @OneToMany(mappedBy = "owner")
+    private Set<Property> properties = new HashSet<>();
 
     @JsonIgnore
     @ManyToMany(mappedBy = "owners")
@@ -54,5 +60,32 @@ public class Owner {
 
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    public void addProperty(Property property){
+        this.properties.add(property);
+        property.setOwner(this);
+    }
+
+    public void removeProperty(Property property){
+        this.properties.remove(property);
+        property.setOwner(null);
+    }
+
+    //from https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Owner)) {
+            return false;
+        }
+        return id != null && id.equals(((Owner) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

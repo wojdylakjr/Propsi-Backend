@@ -147,6 +147,23 @@ public class User {
         tenant.getUsers().remove(this);
     }
 
+    //from https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof User)) {
+            return false;
+        }
+        return id != null && id.equals(((User) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
     @Override
     public String toString() {
         return "User{" +
