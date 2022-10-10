@@ -28,8 +28,8 @@ public class OwnerResource {
 
     @PostMapping("/owners/{id}/properties")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addProperty(@RequestBody Property property) {
+    public void addProperty(@PathVariable Long id, @RequestBody Property property) {
         System.out.println(property);
-        ownerService.addProperty(property);
+        ownerService.addProperty(property,id);
     }
 }
