@@ -3,12 +3,13 @@ package pl.wojdylak.propsi.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "tenant")
-public class Tenant {
+public class Tenant implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

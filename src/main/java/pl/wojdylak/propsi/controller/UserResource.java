@@ -13,7 +13,7 @@ import pl.wojdylak.propsi.service.dto.UserDto;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/api")
 public class UserResource {
     private final UserService userService;

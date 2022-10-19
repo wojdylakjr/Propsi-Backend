@@ -1,13 +1,16 @@
 package pl.wojdylak.propsi.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "owner")
-public class Property {
+@Table(name = "property")
+public class Property implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -15,10 +18,13 @@ public class Property {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "property")
+
+    @OneToMany(mappedBy = "property",cascade = CascadeType.ALL)
     private Set<Premises> premises = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+//TODO: change fetch type to lazy! ...?
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "owner_id")
     private Owner owner;
 
     public Long getId() {
@@ -51,5 +57,31 @@ public class Property {
 
     public void setOwner(Owner owner) {
         this.owner = owner;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Property)) {
+            return false;
+        }
+        return id != null && id.equals(((Property) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Property{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", premises=" + premises +
+                ", owner=" + owner +
+                '}';
     }
 }

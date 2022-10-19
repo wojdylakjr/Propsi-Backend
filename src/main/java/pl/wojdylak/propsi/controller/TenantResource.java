@@ -15,8 +15,8 @@ public class TenantResource {
     }
 
 
-//    @GetMapping("/tenants")
-//    public List<Tenant> getAllTenants(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
-////        return tenantRepository.findAllWithEagerRelationships();
-//    }
+    @GetMapping("/tenants")
+    public List<Tenant> getAllTenants() {
+        return tenantRepository.findAll();
+    }
 }

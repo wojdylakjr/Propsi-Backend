@@ -5,13 +5,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "owner")
-public class Owner {
+public class Owner implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -20,17 +21,18 @@ public class Owner {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "owner")
+    @JsonIgnore
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private Set<Property> properties = new HashSet<>();
 
     @JsonIgnore
     @ManyToMany(mappedBy = "owners")
     private Set<User> users = new HashSet<>();
 
-    public Owner(){
+    public Owner() {
     }
 
-    public Owner(String name){
+    public Owner(String name) {
         this.name = name;
     }
 
@@ -62,12 +64,12 @@ public class Owner {
         this.users = users;
     }
 
-    public void addProperty(Property property){
+    public void addProperty(Property property) {
         this.properties.add(property);
         property.setOwner(this);
     }
 
-    public void removeProperty(Property property){
+    public void removeProperty(Property property) {
         this.properties.remove(property);
         property.setOwner(null);
     }
@@ -87,5 +89,14 @@ public class Owner {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Owner{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+//                ", properties=" + properties +
+                '}';
     }
 }

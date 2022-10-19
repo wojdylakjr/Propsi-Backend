@@ -8,7 +8,9 @@ import pl.wojdylak.propsi.model.Owner;
 import pl.wojdylak.propsi.model.Property;
 import pl.wojdylak.propsi.service.OwnerService;
 
-@Controller
+import java.util.List;
+
+@RestController
 @RequestMapping("/api")
 public class OwnerResource {
     private final OwnerService ownerService;
@@ -19,17 +21,15 @@ public class OwnerResource {
 
     @GetMapping("/owners/{ownerId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Owner> getOwner(@PathVariable Long ownerId ) {
+    public ResponseEntity<Owner> getOwner(@PathVariable Long ownerId) {
         System.out.println("Owner id: " + ownerId.toString());
         System.out.println("owner: " + ownerService.getOwner(ownerId).get());
         return new ResponseEntity<Owner>(ownerService.getOwner(ownerId).get(), HttpStatus.OK);
     }
-
-
-    @PostMapping("/owners/{id}/properties")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void addProperty(@PathVariable Long id, @RequestBody Property property) {
-        System.out.println(property);
-        ownerService.addProperty(property,id);
+    @GetMapping("/owners")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Owner> getAllOwners() {
+        return ownerService.getAllOwners();
     }
+
 }

@@ -2,11 +2,12 @@ package pl.wojdylak.propsi.model;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 
 @Entity
 @Table(name = "rental")
-public class Rental {
+public class Rental implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
