@@ -18,7 +18,8 @@ public class Tenant implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "premises")
+    @JsonIgnore
+    @OneToMany(mappedBy = "tenant", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Rental> rentals = new HashSet<>();
 
     @JsonIgnore
@@ -61,6 +62,14 @@ public class Tenant implements Serializable {
         this.users = users;
     }
 
+    public Set<Rental> getRentals() {
+        return rentals;
+    }
+
+    public void setRentals(Set<Rental> rentals) {
+        this.rentals = rentals;
+    }
+
     //from https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
     @Override
     public boolean equals(Object o) {
@@ -76,5 +85,21 @@ public class Tenant implements Serializable {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        String propertyS = "";
+        if(rentals ==null){
+            propertyS = "null";
+        }else {
+            propertyS = rentals.toString();
+        }
+        return "Tenant{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", rentals=" + propertyS +
+//                ", users=" + users +
+                '}';
     }
 }

@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@Transactional
+//@Transactional
 public class PropertyResource {
     private final PropertyService propertyService;
     private final PropertyRepository propertyRepository;

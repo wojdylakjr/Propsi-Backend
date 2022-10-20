@@ -6,6 +6,7 @@ import pl.wojdylak.propsi.model.User;
 import pl.wojdylak.propsi.repository.TenantRepository;
 
 import java.util.HashSet;
+import java.util.Optional;
 
 @Service
 public class TenantService {
@@ -21,6 +22,10 @@ public class TenantService {
         tenant.setName(objectName + " " + tenant.getId());
         tenantRepository.save(tenant);
         return tenant;
+    }
+
+    public Optional<Tenant> grtTenantById(Long id){
+        return tenantRepository.findById(id);
     }
 
 }

@@ -27,7 +27,8 @@ public class Premises implements Serializable {
     private Property property;
 
 
-    @OneToMany(mappedBy = "premises")
+   @JsonIgnore
+   @OneToMany(mappedBy = "premises", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Rental> rentals = new HashSet<>();
 
     public Premises() {
@@ -95,6 +96,16 @@ public class Premises implements Serializable {
     public void addProperty(Property property){
         this.property = property;
         property.getPremises().add(this);
+    }
+
+    public void addTenant(Tenant tenant){
+        Rental rental = new Rental(tenant,this);
+        rentals.add(rental);
+        tenant.getRentals().add(rental);
+    }
+
+    public void removeTenant(Tenant tenant){
+//        TODO:implement - https://vladmihalcea.com/the-best-way-to-map-a-many-to-many-association-with-extra-columns-when-using-jpa-and-hibernate/
     }
 
     @Override
