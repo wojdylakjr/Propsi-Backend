@@ -11,11 +11,12 @@ public class Rental implements Serializable {
     @EmbeddedId
     private RentalId id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    //TODO: Change to LAZY FetchType !!!
+    @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("tenantId")
     private Tenant tenant;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("premisesId")
     private Premises premises;
 

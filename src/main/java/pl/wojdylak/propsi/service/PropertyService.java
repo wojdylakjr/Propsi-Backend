@@ -44,4 +44,8 @@ public class PropertyService {
         }
         this.propertyRepository.save(property);
     }
+
+    public Property getPropertyById(Long id) {
+        return propertyRepository.findById(id).get();
+    }
 }

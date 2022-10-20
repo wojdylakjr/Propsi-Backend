@@ -1,6 +1,8 @@
 package pl.wojdylak.propsi.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +31,17 @@ public class PropertyResource {
         List<Property> ownerProperties = propertyService.getOwnerProperties(id);
         System.out.println(ownerProperties.toString());
         return ownerProperties;
+    }
+
+//    TODO: write this better
+    @GetMapping("/owners/{ownerId}/properties/{id}")
+    public ResponseEntity<Property> getOwnerPropertyById(@PathVariable Long ownerId, @PathVariable Long id) {
+        System.out.println("Owner id: " + ownerId.toString());
+        System.out.println("Property id: " + id.toString());
+//        System.out.println("owner: " + ownerService.getOwner(ownerId).get());
+        Property property = propertyService.getPropertyById(id);
+        System.out.println(property);
+        return new ResponseEntity<Property>(property, HttpStatus.OK);
     }
 
     @GetMapping("/properties")
