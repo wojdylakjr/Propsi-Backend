@@ -21,9 +21,9 @@ public class Premises implements Serializable {
     @Column(name = "rent_price")
     private Double rentPrice;
 
-   @JsonIgnore
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="property_id")
+    @JoinColumn(name = "property_id")
     private Property property;
 
 

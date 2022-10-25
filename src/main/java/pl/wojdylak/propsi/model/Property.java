@@ -11,6 +11,7 @@ import java.util.Set;
 @Entity
 @Table(name = "property")
 public class Property implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -18,11 +19,19 @@ public class Property implements Serializable {
     @Column(name = "name")
     private String name;
 
+//TODO: uncomment
 
-    @OneToMany(mappedBy = "property",cascade = CascadeType.ALL)
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @MapsId
+//    private Address address;
+
+    //    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+//    private Set<PropertyFixedCost> fixedCosts = new HashSet<>();
+
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     private Set<Premises> premises = new HashSet<>();
 
-//TODO: change fetch type to lazy! ...?
+    //TODO: change fetch type to lazy! ...?
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id")
     private Owner owner;

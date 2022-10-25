@@ -8,6 +8,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "rental")
 public class Rental implements Serializable {
+
     @EmbeddedId
     private RentalId id;
 

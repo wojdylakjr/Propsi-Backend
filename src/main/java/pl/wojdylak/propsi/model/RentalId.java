@@ -7,6 +7,7 @@ import java.util.Objects;
 
 @Embeddable
 public class RentalId implements Serializable {
+
     @Column(name = "tenant_id")
     private Long tenantId;
 
