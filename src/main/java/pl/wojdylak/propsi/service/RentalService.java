@@ -8,7 +8,9 @@ import pl.wojdylak.propsi.model.Tenant;
 import pl.wojdylak.propsi.repository.RentalRepository;
 import pl.wojdylak.propsi.service.dto.RentalRequestDto;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class RentalService {
@@ -39,8 +41,14 @@ public class RentalService {
         }else{
             System.out.println("Wrong ids for tenant or premises. Rental record not added");
         }
-
-
-
     }
+
+    //TODO: write query for this!!!!
+    public List<Rental> getAllRentalsForOwner(Long ownerId) {
+        return rentalRepository.findAll()
+                .stream()
+                .filter(rental -> rental.getPremises().getProperty().getOwner().getId().equals(ownerId))
+                .collect(Collectors.toList());
+    }
+
 }

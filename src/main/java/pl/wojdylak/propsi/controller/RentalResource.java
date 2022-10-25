@@ -2,6 +2,7 @@ package pl.wojdylak.propsi.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import pl.wojdylak.propsi.model.Premises;
 import pl.wojdylak.propsi.model.Rental;
 import pl.wojdylak.propsi.repository.RentalRepository;
 import pl.wojdylak.propsi.service.RentalService;
@@ -14,7 +15,8 @@ import java.util.List;
 public class RentalResource {
 
     private final RentalRepository rentalRepository;
-private final RentalService rentalService;
+    private final RentalService rentalService;
+
     public RentalResource(RentalRepository rentalRepository, RentalService rentalService) {
         this.rentalRepository = rentalRepository;
         this.rentalService = rentalService;
@@ -26,9 +28,14 @@ private final RentalService rentalService;
         System.out.println(rental);
         rentalService.addRental(rental);
     }
+
     @GetMapping("/rentals")
-//    @ResponseBody
     public List<Rental> getAllRentals() {
         return rentalRepository.findAll();
+    }
+
+    @GetMapping("/owners/{ownerId}/rentals")
+    public List<Rental> getAllRentalsForOwner(@PathVariable Long ownerId) {
+        return this.rentalService.getAllRentalsForOwner(ownerId);
     }
 }
