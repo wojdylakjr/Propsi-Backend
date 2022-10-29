@@ -18,8 +18,7 @@ public class Premises implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "rent_price")
-    private Double rentPrice;
+
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,6 +30,10 @@ public class Premises implements Serializable {
    @OneToMany(mappedBy = "premises", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Rental> rentals = new HashSet<>();
 
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "premises", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private Set<PremisesCost> premisesCost = new HashSet<>();
+
     public Premises() {
     }
 
@@ -40,7 +43,6 @@ public class Premises implements Serializable {
 
     public Premises(String name, Double rentPrice, Property property, Set<Rental> rentals) {
         this.name = name;
-        this.rentPrice = rentPrice;
         this.property = property;
         this.rentals = rentals;
     }
@@ -48,7 +50,6 @@ public class Premises implements Serializable {
     public Premises(Long id, String name, Double rentPrice, Property property, Set<Rental> rentals) {
         this.id = id;
         this.name = name;
-        this.rentPrice = rentPrice;
         this.property = property;
         this.rentals = rentals;
     }
@@ -67,14 +68,6 @@ public class Premises implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Double getRentPrice() {
-        return rentPrice;
-    }
-
-    public void setRentPrice(Double rentPrice) {
-        this.rentPrice = rentPrice;
     }
 
     public Property getProperty() {
@@ -135,7 +128,6 @@ public class Premises implements Serializable {
         return "Premises{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", rentPrice=" + rentPrice +
                 ", property=" + propertyS +
                 ", rentals=" + rentals +
                 '}';

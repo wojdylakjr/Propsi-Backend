@@ -23,8 +23,8 @@ public class Meter implements Serializable {
     @Column(name = "meter_type")
     private MeterType meterType;
 
-//    @OneToMany(mappedBy = "meter", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private Set<MeterMeasurement> meterMeasurements = new HashSet<>();
+    @OneToMany(mappedBy = "meter", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<MeterMeasurement> meterMeasurements = new HashSet<>();
 
 //    @JsonIgnore
 //    @ManyToOne(fetch = FetchType.LAZY)

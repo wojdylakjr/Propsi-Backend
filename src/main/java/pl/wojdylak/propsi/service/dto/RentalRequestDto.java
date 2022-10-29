@@ -1,9 +1,17 @@
 package pl.wojdylak.propsi.service.dto;
 
+import javax.persistence.Column;
+import java.time.Instant;
+
 public class RentalRequestDto {
     private Long tenantId;
     private Long premisesId;
     private String name;
+    private Long rentPrice;
+    private Instant rentalStartDate;
+    private Instant rentalEndDate;
+    private Integer paymentDay;
+    private Double costsPart;
 
     public RentalRequestDto() {
     }
@@ -12,6 +20,13 @@ public class RentalRequestDto {
         this.tenantId = tenantId;
         this.premisesId = premisesId;
         this.name = name;
+    }
+
+    public RentalRequestDto(Long tenantId, Long premisesId, String name, Long rentPrice) {
+        this.tenantId = tenantId;
+        this.premisesId = premisesId;
+        this.name = name;
+        this.rentPrice = rentPrice;
     }
 
     public Long getTenantId() {
@@ -38,12 +53,57 @@ public class RentalRequestDto {
         this.name = name;
     }
 
+    public Long getRentPrice() {
+        return rentPrice;
+    }
+
+    public void setRentPrice(Long rentPrice) {
+        this.rentPrice = rentPrice;
+    }
+
+    public Instant getRentalStartDate() {
+        return rentalStartDate;
+    }
+
+    public void setRentalStartDate(Instant rentalStartDate) {
+        this.rentalStartDate = rentalStartDate;
+    }
+
+    public Instant getRentalEndDate() {
+        return rentalEndDate;
+    }
+
+    public void setRentalEndDate(Instant rentalEndDate) {
+        this.rentalEndDate = rentalEndDate;
+    }
+
+    public Integer getPaymentDay() {
+        return paymentDay;
+    }
+
+    public void setPaymentDay(Integer paymentDay) {
+        this.paymentDay = paymentDay;
+    }
+
+    public Double getCostsPart() {
+        return costsPart;
+    }
+
+    public void setCostsPart(Double costsPart) {
+        this.costsPart = costsPart;
+    }
+
     @Override
     public String toString() {
         return "RentalRequestDto{" +
                 "tenantId=" + tenantId +
                 ", premisesId=" + premisesId +
                 ", name='" + name + '\'' +
+                ", rentPrice=" + rentPrice +
+                ", rentalStartDate=" + rentalStartDate +
+                ", rentalEndDate=" + rentalEndDate +
+                ", paymentDay=" + paymentDay +
+                ", costsPart=" + costsPart +
                 '}';
     }
 }

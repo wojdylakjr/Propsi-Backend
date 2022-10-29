@@ -26,11 +26,11 @@ public class MeterMeasurement implements Serializable {
 
     @Column(name = "unit")
     private String unit;
-//
+
 //    @JsonIgnore
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "meter_id")
-//    private Meter meter;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "meter_id")
+    private Meter meter;
 
     public MeterMeasurement() {
     }
@@ -67,13 +67,13 @@ public class MeterMeasurement implements Serializable {
         this.unit = unit;
     }
 
-//    public Meter getMeter() {
-//        return meter;
-//    }
-//
-//    public void setMeter(Meter meter) {
-//        this.meter = meter;
-//    }
+    public Meter getMeter() {
+        return meter;
+    }
+
+    public void setMeter(Meter meter) {
+        this.meter = meter;
+    }
 
     @Override
     public boolean equals(Object o) {

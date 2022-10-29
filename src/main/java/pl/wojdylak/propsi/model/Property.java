@@ -1,8 +1,6 @@
 package pl.wojdylak.propsi.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -19,22 +17,24 @@ public class Property implements Serializable {
     @Column(name = "name")
     private String name;
 
-//TODO: uncomment
+    @Column(name = "single_premises")
+    private Boolean isSinglePremises;
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @MapsId
-//    private Address address;
-
-    //    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
-//    private Set<PropertyFixedCost> fixedCosts = new HashSet<>();
-
-    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
-    private Set<Premises> premises = new HashSet<>();
-
-    //TODO: change fetch type to lazy! ...?
+    //TODO: change to lazy
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id")
     private Owner owner;
+
+    //TODO: Change to lazy
+    @OneToOne(fetch = FetchType.EAGER)
+    @MapsId
+    private Address address;
+
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+    private Set<PropertyFixedCost> fixedCosts = new HashSet<>();
+
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+    private Set<Premises> premises = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -52,6 +52,14 @@ public class Property implements Serializable {
         this.name = name;
     }
 
+    public Boolean isSinglePremises() {
+        return isSinglePremises;
+    }
+
+    public void setIsSinglePremises(Boolean isSinglePremises) {
+        this.isSinglePremises = isSinglePremises;
+    }
+
     public Set<Premises> getPremises() {
         return premises;
     }
@@ -66,6 +74,22 @@ public class Property implements Serializable {
 
     public void setOwner(Owner owner) {
         this.owner = owner;
+    }
+
+    public Set<PropertyFixedCost> getFixedCosts() {
+        return fixedCosts;
+    }
+
+    public void setFixedCosts(Set<PropertyFixedCost> fixedCosts) {
+        this.fixedCosts = fixedCosts;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     @Override
@@ -91,6 +115,7 @@ public class Property implements Serializable {
                 ", name='" + name + '\'' +
                 ", premises=" + premises +
                 ", owner=" + owner +
+                ", address=" + address +
                 '}';
     }
 }

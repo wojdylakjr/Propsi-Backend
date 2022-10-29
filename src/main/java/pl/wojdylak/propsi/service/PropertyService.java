@@ -2,6 +2,7 @@ package pl.wojdylak.propsi.service;
 
 import org.springframework.stereotype.Service;
 import pl.wojdylak.propsi.model.Owner;
+import pl.wojdylak.propsi.model.Premises;
 import pl.wojdylak.propsi.model.Property;
 import pl.wojdylak.propsi.repository.PremisesRepository;
 import pl.wojdylak.propsi.repository.PropertyRepository;
@@ -22,28 +23,36 @@ public class PropertyService {
         this.ownerService = ownerService;
     }
 
-    public List<Property> getOwnerProperties(Long id){
+    public List<Property> getOwnerProperties(Long id) {
         return propertyRepository.findByOwnerId(id);
     }
 
     public void addProperty(Property property, Long ownerId) {
         Optional<Owner> owner = ownerService.getOwner(ownerId);
-        if(owner.isPresent()){
-            if(property.getPremises().size() > 0){
-                property.getPremises().stream().forEach(premises -> {
+        if (owner.isPresent()) {
+            if (property.isSinglePremises()) {
+                createDefaultPremises(property);
+            }
+            else if (property.getPremises().size() > 0) {
+                property.getPremises().forEach(premises -> {
                     premises.addProperty(property);
                 });
             }
-
-//            premisesRepository.saveAllAndFlush(property.getPremises());
-            System.out.println("Proprty: " + Arrays.toString(property.getPremises().toArray()));
+            System.out.println("Properties: " + Arrays.toString(property.getPremises().toArray()));
             owner.get().addProperty(property);
-        }else{
+            this.propertyRepository.save(property);
+        } else {
             //TODO: fix this error
-            throw new RuntimeException("Not foound");
+            throw new RuntimeException("Not found");
         }
-        this.propertyRepository.save(property);
     }
+
+    private void createDefaultPremises(Property property) {
+        Premises defaultPremises = new Premises();
+        defaultPremises.setName(property.getName());
+        defaultPremises.addProperty(property);
+    }
+
 
     public Property getPropertyById(Long id) {
         return propertyRepository.findById(id).get();

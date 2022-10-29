@@ -27,13 +27,18 @@ public class RentalService {
     public void addRental(RentalRequestDto rentalDto) {
         //TODO: refactor this code
         System.out.println(rentalDto);
-        RentalId rentalId = new RentalId(rentalDto.getTenantId(), rentalDto.getPremisesId());
         Optional<Premises> premisesById = premisesService.getPremisesById(rentalDto.getPremisesId());
         Optional<Tenant> tenant = tenantService.grtTenantById(rentalDto.getTenantId());
         if(premisesById.isPresent() && tenant.isPresent()) {
+            RentalId rentalId = new RentalId(rentalDto.getTenantId(), rentalDto.getPremisesId());
             Rental rental = new Rental(tenant.get(), premisesById.get());
             rental.setId(rentalId);
             rental.setName(rentalDto.getName());
+            rental.setRentPrice(rentalDto.getRentPrice());
+            rental.setRentalStartDate(rentalDto.getRentalStartDate());
+            rental.setRentalEndDate(rentalDto.getRentalEndDate());
+            rental.setCostsPart(rentalDto.getCostsPart());
+            rental.setPaymentDay(rentalDto.getPaymentDay());
             System.out.println("Tenant in rental: " + tenant.get());
             System.out.println("Premises in rental:"  + premisesById.get());
             System.out.println(rental);
