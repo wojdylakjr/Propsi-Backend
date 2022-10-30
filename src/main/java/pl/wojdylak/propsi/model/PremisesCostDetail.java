@@ -23,8 +23,9 @@ public class PremisesCostDetail implements Serializable {
     @Column(name = "unit")
     private String unit;
 
+    //TODO: check fetchType
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "premises_cost_id")
     private PremisesCost premisesCost;
 
@@ -66,5 +67,32 @@ public class PremisesCostDetail implements Serializable {
 
     public void setPremisesCost(PremisesCost premisesCost) {
         this.premisesCost = premisesCost;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof PremisesCostDetail)) {
+            return false;
+        }
+        return id != null && id.equals(((PremisesCostDetail) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "PremisesCostDetail{" +
+                "id=" + id +
+                ", costValue=" + costValue +
+                ", date=" + date +
+                ", unit='" + unit + '\'' +
+
+                '}';
     }
 }

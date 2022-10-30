@@ -33,9 +33,18 @@ public class PropertyService {
             if (property.isSinglePremises()) {
                 createDefaultPremises(property);
             }
-            else if (property.getPremises().size() > 0) {
+            if (property.getPremises().size() > 0) {
                 property.getPremises().forEach(premises -> {
                     premises.addProperty(property);
+                });
+
+                property.getPremises().forEach(premises -> premises.addPremisesCosts(premises.getPremisesCosts()));
+                property.getPremises().forEach(premises -> premises.addPremisesMeters(premises.getMeters()));
+            }
+
+            if (property.getFixedCosts().size() > 0) {
+                property.getFixedCosts().forEach(cost -> {
+                    cost.addProperty(property);
                 });
             }
             System.out.println("Properties: " + Arrays.toString(property.getPremises().toArray()));

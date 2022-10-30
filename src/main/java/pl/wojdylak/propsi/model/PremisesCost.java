@@ -17,15 +17,17 @@ public class PremisesCost implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
+//    back to enum?
     @Column(name = "cost_type")
-    private PremisesCostType costType;
+    private String costType;
 
-//    @JsonIgnore
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "premises_id")
-//    private Premises premises;
+    //TODO: check it
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "premises_id")
+    private Premises premises;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "premisesCost", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PremisesCostDetail> premisesCostDetails = new HashSet<>();
 
@@ -37,11 +39,11 @@ public class PremisesCost implements Serializable {
         this.id = id;
     }
 
-    public PremisesCostType getCostType() {
+    public String getCostType() {
         return costType;
     }
 
-    public void setCostType(PremisesCostType costType) {
+    public void setCostType(String costType) {
         this.costType = costType;
     }
 
@@ -53,4 +55,41 @@ public class PremisesCost implements Serializable {
         this.premisesCostDetails = premisesCostDetails;
     }
 
+    public Premises getPremises() {
+        return premises;
+    }
+
+    public void setPremises(Premises premises) {
+        this.premises = premises;
+    }
+
+//    public void addPremises(Premises premises){
+//        this.premises = premises;
+//        premises.getPremisesCosts().add(this);
+//    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof PremisesCost)) {
+            return false;
+        }
+        return id != null && id.equals(((PremisesCost) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "PremisesCost{" +
+                "id=" + id +
+                ", costType=" + costType +
+                ", premisesCostDetails=" + premisesCostDetails +
+                '}';
+    }
 }

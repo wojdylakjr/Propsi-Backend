@@ -1,11 +1,6 @@
 package pl.wojdylak.propsi.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import pl.wojdylak.propsi.model.enumaration.PropertyFixedCostsType;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -17,9 +12,9 @@ public class PropertyFixedCost implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
+    //TODO: Change to @Enumerated ?
     @Column(name = "cost_type")
-    private PropertyFixedCostsType costType;
+    private String costType;
 
     @Column(name = "cost_value")
     private Double costValue;
@@ -37,11 +32,11 @@ public class PropertyFixedCost implements Serializable {
         this.id = id;
     }
 
-    public PropertyFixedCostsType getCostType() {
+    public String getCostType() {
         return costType;
     }
 
-    public void setCostType(PropertyFixedCostsType costType) {
+    public void setCostType(String costType) {
         this.costType = costType;
     }
 
@@ -61,6 +56,11 @@ public class PropertyFixedCost implements Serializable {
         this.property = property;
     }
 
+    public void addProperty(Property property){
+        this.property = property;
+        property.getFixedCosts().add(this);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -75,5 +75,14 @@ public class PropertyFixedCost implements Serializable {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "PropertyFixedCost{" +
+                "id=" + id +
+                ", costType='" + costType + '\'' +
+                ", costValue=" + costValue +
+                '}';
     }
 }

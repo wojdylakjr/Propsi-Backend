@@ -116,6 +116,7 @@ public class Property implements Serializable {
                 ", premises=" + premises +
                 ", owner=" + owner +
                 ", address=" + address +
+                ", fixed costs=" + fixedCosts +
                 '}';
     }
 }
