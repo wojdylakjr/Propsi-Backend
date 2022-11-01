@@ -19,8 +19,8 @@ public class Premises implements Serializable {
     private String name;
 
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+//TODO: to lazy
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "property_id")
     private Property property;
 

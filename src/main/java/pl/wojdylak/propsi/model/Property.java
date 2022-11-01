@@ -1,6 +1,9 @@
 package pl.wojdylak.propsi.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -33,6 +36,7 @@ public class Property implements Serializable {
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     private Set<PropertyFixedCost> fixedCosts = new HashSet<>();
 
+    @JsonIgnoreProperties(value = "property", allowSetters = true)
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     private Set<Premises> premises = new HashSet<>();
 
