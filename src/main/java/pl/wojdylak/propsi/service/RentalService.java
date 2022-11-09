@@ -1,5 +1,6 @@
 package pl.wojdylak.propsi.service;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.wojdylak.propsi.model.Premises;
 import pl.wojdylak.propsi.model.Rental;
@@ -54,6 +55,16 @@ public class RentalService {
                 .stream()
                 .filter(rental -> rental.getPremises().getProperty().getOwner().getId().equals(ownerId))
                 .collect(Collectors.toList());
+    }
+
+    public Rental getOwnerRentalById(Long ownerId, Long tenantId, Long premisesId){
+        Optional<Rental> rentalByTenantIdAndPremisesId = rentalRepository.findByIdTenantIdAndIdPremisesId(tenantId, premisesId);
+        if(rentalByTenantIdAndPremisesId.isPresent()){
+            if(rentalByTenantIdAndPremisesId.get().getPremises().getProperty().getOwner().getId().equals(ownerId)){
+                return rentalByTenantIdAndPremisesId.get();
+            }
+        }
+        return null;
     }
 
 }

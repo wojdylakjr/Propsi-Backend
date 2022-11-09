@@ -1,6 +1,7 @@
 package pl.wojdylak.propsi.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.wojdylak.propsi.model.Premises;
 import pl.wojdylak.propsi.model.Rental;
@@ -37,5 +38,14 @@ public class RentalResource {
     @GetMapping("/owners/{ownerId}/rentals")
     public List<Rental> getAllRentalsForOwner(@PathVariable Long ownerId) {
         return this.rentalService.getAllRentalsForOwner(ownerId);
+    }
+
+    @GetMapping("/owners/{ownerId}/rentals/{tenantId}/{premisesId}")
+    public ResponseEntity<Rental> getOwnerRentalById(@PathVariable Long ownerId,@PathVariable Long tenantId,@PathVariable Long premisesId) {
+        Rental ownerRentalById = this.rentalService.getOwnerRentalById(ownerId, tenantId, premisesId);
+        if(ownerRentalById == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(ownerRentalById, HttpStatus.OK);
     }
 }

@@ -27,8 +27,9 @@ public class MeterMeasurement implements Serializable {
     @Column(name = "unit")
     private String unit;
 
-//    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("meterMeasurements")
+    //TODO: lazy
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "meter_id")
     private Meter meter;
 
@@ -73,6 +74,10 @@ public class MeterMeasurement implements Serializable {
 
     public void setMeter(Meter meter) {
         this.meter = meter;
+    }
+    public void addMeter(Meter meter) {
+        this.meter = meter;
+        meter.getMeterMeasurements().add(this);
     }
 
     @Override

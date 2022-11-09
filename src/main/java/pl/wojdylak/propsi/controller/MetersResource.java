@@ -1,0 +1,40 @@
+package pl.wojdylak.propsi.controller;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import pl.wojdylak.propsi.model.Meter;
+import pl.wojdylak.propsi.model.MeterMeasurement;
+import pl.wojdylak.propsi.model.PremisesCost;
+import pl.wojdylak.propsi.service.MeterService;
+import pl.wojdylak.propsi.service.PremisesCostService;
+import pl.wojdylak.propsi.service.dto.MeterMeasurementRequestDto;
+import pl.wojdylak.propsi.service.dto.RentalRequestDto;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api")
+public class MetersResource {
+    private final MeterService meterService;
+
+    public MetersResource(MeterService meterService) {
+        this.meterService = meterService;
+    }
+
+    @GetMapping("/owners/{ownerId}/premises/{premisesId}/meters")
+    public List<Meter> getPremisesCostForOnePremises(@PathVariable Long ownerId, @PathVariable Long premisesId) {
+        return this.meterService.getAllMetersForOnePremises(ownerId, premisesId);
+    }
+
+    @GetMapping("/owners/{ownerId}/premises/{premisesId}/metersMeasurements")
+    public List<MeterMeasurement> getAllMetersMeasurementsForOnePremises(@PathVariable Long ownerId, @PathVariable Long premisesId) {
+        return this.meterService.getAllMetersMeasurementsForOnePremises(ownerId, premisesId);
+    }
+
+    @PostMapping("/meterMeasurements")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addMeterMeasurement(@RequestBody MeterMeasurementRequestDto meterMeasurementRequestDto) {
+        System.out.println(meterMeasurementRequestDto);
+        meterService.addMeterMeasurement(meterMeasurementRequestDto);
+    }
+}

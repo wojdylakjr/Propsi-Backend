@@ -1,6 +1,7 @@
 package pl.wojdylak.propsi.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import pl.wojdylak.propsi.model.enumaration.MeterType;
 import pl.wojdylak.propsi.model.enumaration.PremisesCostType;
 import pl.wojdylak.propsi.model.enumaration.PropertyFixedCostsType;
@@ -27,7 +28,7 @@ public class PremisesCost implements Serializable {
     @JoinColumn(name = "premises_id")
     private Premises premises;
 
-    @JsonIgnore
+    @JsonIgnoreProperties("premisesCost")
     @OneToMany(mappedBy = "premisesCost", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PremisesCostDetail> premisesCostDetails = new HashSet<>();
 

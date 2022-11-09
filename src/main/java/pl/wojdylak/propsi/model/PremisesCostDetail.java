@@ -1,6 +1,7 @@
 package pl.wojdylak.propsi.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import pl.wojdylak.propsi.model.enumaration.PremisesCostType;
 
 import javax.persistence.*;
@@ -24,7 +25,7 @@ public class PremisesCostDetail implements Serializable {
     private String unit;
 
     //TODO: check fetchType
-    @JsonIgnore
+    @JsonIgnoreProperties("premisesCostDetails")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "premises_cost_id")
     private PremisesCost premisesCost;
@@ -67,6 +68,11 @@ public class PremisesCostDetail implements Serializable {
 
     public void setPremisesCost(PremisesCost premisesCost) {
         this.premisesCost = premisesCost;
+    }
+
+    public void addPremisesCost(PremisesCost premisesCost) {
+        this.premisesCost = premisesCost;
+        premisesCost.getPremisesCostDetails().add(this);
     }
 
     @Override

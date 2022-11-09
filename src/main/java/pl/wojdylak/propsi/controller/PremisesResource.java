@@ -30,4 +30,13 @@ public class PremisesResource {
     public List<Premises> getAllPremisesForOwner(@PathVariable Long ownerId) {
         return this.premisesService.getAllForOwner(ownerId);
     }
+
+    @GetMapping("/owners/{ownerId}/premises/{premisesId}")
+    public ResponseEntity<Premises> getPremisesForOwner(@PathVariable Long ownerId, @PathVariable Long premisesId) {
+        Premises premises = this.premisesService.getOwnerPremisesId(ownerId, premisesId);
+        if(premises == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(premises, HttpStatus.OK);
+    }
 }

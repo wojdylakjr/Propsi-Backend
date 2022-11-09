@@ -36,4 +36,13 @@ public class PremisesService {
     }
 
 
+    public Premises getOwnerPremisesId(Long ownerId, Long premisesId){
+        Optional<Premises> premises = this.premisesRepository.findById(premisesId);
+        if(premises.isPresent()){
+            if(premises.get().getProperty().getOwner().getId().equals(ownerId)){
+                return premises.get();
+            }
+        }
+        return null;
+    }
 }
