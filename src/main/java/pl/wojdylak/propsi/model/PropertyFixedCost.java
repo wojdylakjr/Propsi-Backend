@@ -3,6 +3,7 @@ package pl.wojdylak.propsi.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "property_fixed_cost")
@@ -17,7 +18,7 @@ public class PropertyFixedCost implements Serializable {
     private String costType;
 
     @Column(name = "cost_value")
-    private Double costValue;
+    private BigDecimal costValue;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
@@ -40,11 +41,11 @@ public class PropertyFixedCost implements Serializable {
         this.costType = costType;
     }
 
-    public Double getCostValue() {
+    public BigDecimal getCostValue() {
         return costValue;
     }
 
-    public void setCostValue(Double costValue) {
+    public void setCostValue(BigDecimal costValue) {
         this.costValue = costValue;
     }
 

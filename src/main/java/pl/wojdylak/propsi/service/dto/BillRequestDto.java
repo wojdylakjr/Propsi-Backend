@@ -4,20 +4,21 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import pl.wojdylak.propsi.model.Rental;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.Instant;
 
 public class BillRequestDto {
-    private Double totalPrice;
+    private BigDecimal totalPrice;
     private Instant date;
     private Long rentalPremisesId;
     private Long rentalTenantId;
     private Long ownerId;
 
-    public Double getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Double totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
 

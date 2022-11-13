@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "bill")
@@ -14,7 +17,7 @@ public class Bill implements Serializable {
     private Long id;
 
     @Column(name = "total_price")
-    private Double totalPrice;
+    private BigDecimal totalPrice;
 
     @Column(name = "date")
     private Instant date;
@@ -28,6 +31,11 @@ public class Bill implements Serializable {
     })
     private Rental rental;
 
+    @JsonIgnoreProperties("bill")
+    @OneToMany(mappedBy = "bill", cascade = CascadeType.ALL)
+    private Set<BillLineItem> billLineItems = new HashSet<>();
+
+
     public Long getId() {
         return id;
     }
@@ -36,11 +44,11 @@ public class Bill implements Serializable {
         this.id = id;
     }
 
-    public Double getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Double totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
 
@@ -63,6 +71,14 @@ public class Bill implements Serializable {
     public void addRental(Rental rental){
         this.rental = rental;
         rental.getBills().add(this);
+    }
+
+    public Set<BillLineItem> getBillLineItems() {
+        return billLineItems;
+    }
+
+    public void setBillLineItems(Set<BillLineItem> billLineItems) {
+        this.billLineItems = billLineItems;
     }
 
     @Override

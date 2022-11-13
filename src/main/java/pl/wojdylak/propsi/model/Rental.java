@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,7 +22,7 @@ public class Rental implements Serializable {
     private String name;
 
     @Column(name = "rent_price")
-    private Long rentPrice;
+    private BigDecimal rentPrice;
 
     @Column(name = "rental_start_date")
     private Instant rentalStartDate;
@@ -88,11 +89,11 @@ public class Rental implements Serializable {
         this.name = name;
     }
 
-    public Long getRentPrice() {
+    public BigDecimal getRentPrice() {
         return rentPrice;
     }
 
-    public void setRentPrice(Long rentPrice) {
+    public void setRentPrice(BigDecimal rentPrice) {
         this.rentPrice = rentPrice;
     }
 

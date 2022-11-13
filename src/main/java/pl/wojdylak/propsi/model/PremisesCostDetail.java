@@ -6,6 +6,7 @@ import pl.wojdylak.propsi.model.enumaration.PremisesCostType;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
 
 @Entity
@@ -16,7 +17,7 @@ public class PremisesCostDetail implements Serializable {
     private Long id;
 
     @Column(name = "cost_value")
-    private Double costValue;
+    private BigDecimal costValue;
 
     @Column(name = "date")
     private Instant date;
@@ -38,11 +39,11 @@ public class PremisesCostDetail implements Serializable {
         this.id = id;
     }
 
-    public Double getCostValue() {
+    public BigDecimal getCostValue() {
         return costValue;
     }
 
-    public void setCostValue(Double costValue) {
+    public void setCostValue(BigDecimal costValue) {
         this.costValue = costValue;
     }
 

@@ -1,17 +1,18 @@
 package pl.wojdylak.propsi.service.dto;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 public class PremisesCostDetailRequestDto {
     private Long premisesCostId;
-    private Double costValue;
+    private BigDecimal costValue;
     private String unit;
     private Instant date;
 
     public PremisesCostDetailRequestDto() {
     }
 
-    public PremisesCostDetailRequestDto(Long premisesCostId, Double costValue, String unit, Instant date) {
+    public PremisesCostDetailRequestDto(Long premisesCostId, BigDecimal costValue, String unit, Instant date) {
         this.premisesCostId = premisesCostId;
         this.costValue = costValue;
         this.unit = unit;
@@ -26,11 +27,11 @@ public class PremisesCostDetailRequestDto {
         this.premisesCostId = premisesCostId;
     }
 
-    public Double getCostValue() {
+    public BigDecimal getCostValue() {
         return costValue;
     }
 
-    public void setCostValue(Double costValue) {
+    public void setCostValue(BigDecimal costValue) {
         this.costValue = costValue;
     }
 

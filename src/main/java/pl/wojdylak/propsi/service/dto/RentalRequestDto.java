@@ -1,13 +1,14 @@
 package pl.wojdylak.propsi.service.dto;
 
 import javax.persistence.Column;
+import java.math.BigDecimal;
 import java.time.Instant;
 
 public class RentalRequestDto {
     private Long tenantId;
     private Long premisesId;
     private String name;
-    private Long rentPrice;
+    private BigDecimal rentPrice;
     private Instant rentalStartDate;
     private Instant rentalEndDate;
     private Integer paymentDay;
@@ -22,7 +23,7 @@ public class RentalRequestDto {
         this.name = name;
     }
 
-    public RentalRequestDto(Long tenantId, Long premisesId, String name, Long rentPrice) {
+    public RentalRequestDto(Long tenantId, Long premisesId, String name, BigDecimal rentPrice) {
         this.tenantId = tenantId;
         this.premisesId = premisesId;
         this.name = name;
@@ -53,11 +54,11 @@ public class RentalRequestDto {
         this.name = name;
     }
 
-    public Long getRentPrice() {
+    public BigDecimal getRentPrice() {
         return rentPrice;
     }
 
-    public void setRentPrice(Long rentPrice) {
+    public void setRentPrice(BigDecimal rentPrice) {
         this.rentPrice = rentPrice;
     }
 
