@@ -1,9 +1,13 @@
 package pl.wojdylak.propsi.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -39,6 +43,10 @@ public class Rental implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("premisesId")
     private Premises premises;
+
+    @JsonIgnoreProperties("rental")
+    @OneToMany(mappedBy = "rental", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Bill> bills = new HashSet<>();
 
     public Rental() {
     }
@@ -120,6 +128,14 @@ public class Rental implements Serializable {
         this.costsPart = costsPart;
     }
 
+    public Set<Bill> getBills() {
+        return bills;
+    }
+
+    public void setBills(Set<Bill> bills) {
+        this.bills = bills;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -148,6 +164,7 @@ public class Rental implements Serializable {
                 ", costsPart=" + costsPart +
                 ", tenant name=" + tenant.getName() +
                 ", premises=" + premises.getName() +
+                ", bills=" + bills +
                 '}';
     }
 

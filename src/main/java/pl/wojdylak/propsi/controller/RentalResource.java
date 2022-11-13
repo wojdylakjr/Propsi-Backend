@@ -41,9 +41,9 @@ public class RentalResource {
     }
 
     @GetMapping("/owners/{ownerId}/rentals/{tenantId}/{premisesId}")
-    public ResponseEntity<Rental> getOwnerRentalById(@PathVariable Long ownerId,@PathVariable Long tenantId,@PathVariable Long premisesId) {
+    public ResponseEntity<Rental> getOwnerRentalById(@PathVariable Long ownerId, @PathVariable Long tenantId, @PathVariable Long premisesId) {
         Rental ownerRentalById = this.rentalService.getOwnerRentalById(ownerId, tenantId, premisesId);
-        if(ownerRentalById == null){
+        if (ownerRentalById == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(ownerRentalById, HttpStatus.OK);
