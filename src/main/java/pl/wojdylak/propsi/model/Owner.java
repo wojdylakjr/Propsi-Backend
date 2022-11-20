@@ -6,6 +6,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -20,6 +21,18 @@ public class Owner implements Serializable {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "payU_client_id")
+    private String payUClientId;
+
+    @Column(name = "payU_client_secret")
+    private String payUClientSecret;
+
+    @Column(name = "payU_access_token")
+    private String payUAccessToken;
+
+    @Column(name = "payU_access_token_expiration")
+    private Instant payUAccessTokenExpiration;
 
     @JsonIgnore
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
@@ -54,6 +67,46 @@ public class Owner implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPayUClientId() {
+        return payUClientId;
+    }
+
+    public void setPayUClientId(String payUClientId) {
+        this.payUClientId = payUClientId;
+    }
+
+    public String getPayUClientSecret() {
+        return payUClientSecret;
+    }
+
+    public void setPayUClientSecret(String payUClientSecret) {
+        this.payUClientSecret = payUClientSecret;
+    }
+
+    public String getPayUAccessToken() {
+        return payUAccessToken;
+    }
+
+    public void setPayUAccessToken(String payUAccessToken) {
+        this.payUAccessToken = payUAccessToken;
+    }
+
+    public Instant getPayUAccessTokenExpiration() {
+        return payUAccessTokenExpiration;
+    }
+
+    public void setPayUAccessTokenExpiration(Instant payUAccessTokenExpiration) {
+        this.payUAccessTokenExpiration = payUAccessTokenExpiration;
+    }
+
+    public Set<Property> getProperties() {
+        return properties;
+    }
+
+    public void setProperties(Set<Property> properties) {
+        this.properties = properties;
     }
 
     public Set<User> getUsers() {

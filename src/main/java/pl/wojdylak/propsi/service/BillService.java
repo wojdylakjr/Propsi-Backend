@@ -4,30 +4,34 @@ import org.springframework.stereotype.Service;
 import pl.wojdylak.propsi.model.*;
 import pl.wojdylak.propsi.repository.BillLineItemRepository;
 import pl.wojdylak.propsi.repository.BillRepository;
+import pl.wojdylak.propsi.repository.PaymentRepository;
 import pl.wojdylak.propsi.service.dto.BillRequestDto;
+import pl.wojdylak.propsi.service.dto.payu.PayUAddOrderResponse;
+import pl.wojdylak.propsi.service.dto.payu.PayUPaymentNotification;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class BillService {
     private final BillRepository billRepository;
     private final BillLineItemRepository billLineItemRepository;
+    private final PaymentRepository paymentRepository;
     private final RentalService rentalService;
     private final PremisesService premisesService;
+    private final PayUService payUService;
 
-    public BillService(BillRepository billRepository, BillLineItemRepository billLineItemRepository, RentalService rentalService, PremisesService premisesService) {
+    public BillService(BillRepository billRepository, BillLineItemRepository billLineItemRepository, PaymentRepository paymentRepository, RentalService rentalService, PremisesService premisesService, PayUService payUService) {
         this.billRepository = billRepository;
         this.billLineItemRepository = billLineItemRepository;
+        this.paymentRepository = paymentRepository;
         this.rentalService = rentalService;
         this.premisesService = premisesService;
+        this.payUService = payUService;
     }
 
     public List<Bill> getAllBills() {
@@ -47,14 +51,12 @@ public class BillService {
                 .collect(Collectors.toList());
     }
 
-    public Bill getBillById(Long ownerId, Long billId) {
+    public Bill getBillById(Long billId) {
         Optional<Bill> billById = this.billRepository.findById(billId);
-        if(billById.isPresent()){
-            if(billById.get().getRental().getPremises().getProperty().getOwner().getId().equals(ownerId)){
-                return billById.get();
-            }
-        }
-        return null;
+        //            if(billById.get().getRental().getPremises().getProperty().getOwner().getId().equals(ownerId)){
+        //                return billById.get();
+        //            }
+        return billById.orElse(null);
     }
 
     public void addBillForRental(BillRequestDto billRequestDto) {
@@ -80,6 +82,7 @@ public class BillService {
             Bill bill = new Bill();
             bill.addRental(rental);
             bill.setDate(instant);
+            bill.setPayment(new Payment());
 //            this.billRepository.saveAndFlush(bill);
             Set<BillLineItem> billLineItems = new HashSet<>();
             BillLineItem rentPriceBillLine = new BillLineItem();
@@ -111,5 +114,26 @@ public class BillService {
     }
 
 
+    public PayUAddOrderResponse createPaymentForBill(Bill billById) {
+        return this.payUService.addOrder(billById);
+    }
 
+    public void addPaymentResponse(PayUPaymentNotification paymentNotification) {
+        String extOrderId = paymentNotification.getOrder().getExtOrderId();
+        Bill bill = this.getBillById(Long.valueOf(extOrderId));
+        if (bill == null) {
+            System.out.println("Bill not found for id: " + extOrderId);
+            return;
+        }
+        Payment payment = new Payment(bill.getPayment().getId(),
+                paymentNotification.getLocalReceiptDateTime(),
+                paymentNotification.getProperties().get(0).getValue(),
+                BigDecimal.valueOf(Double.parseDouble(paymentNotification.getOrder().getPayMethod().getAmount())/100.0),
+                paymentNotification.getOrder().getPayMethod().getType(),
+                paymentNotification.getOrder().getCurrencyCode(),
+                paymentNotification.getOrder().getStatus());
+
+        this.paymentRepository.save(payment);
+
+    }
 }

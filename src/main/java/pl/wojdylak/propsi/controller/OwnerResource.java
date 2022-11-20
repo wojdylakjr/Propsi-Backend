@@ -2,11 +2,10 @@ package pl.wojdylak.propsi.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.wojdylak.propsi.model.Owner;
-import pl.wojdylak.propsi.model.Property;
 import pl.wojdylak.propsi.service.OwnerService;
+import pl.wojdylak.propsi.service.dto.payu.OwnerPayUCredentialsDto;
 
 import java.util.List;
 
@@ -30,6 +29,16 @@ public class OwnerResource {
     @ResponseStatus(HttpStatus.OK)
     public List<Owner> getAllOwners() {
         return ownerService.getAllOwners();
+    }
+
+    @PatchMapping("/owners/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Owner> addPayUCredentials(@RequestBody OwnerPayUCredentialsDto ownerPayUCredentialsDto, @PathVariable Long id){
+        Owner owner = this.ownerService.addPayUCredentials(ownerPayUCredentialsDto, id);
+        if(owner==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(owner, HttpStatus.OK);
     }
 
 }

@@ -2,9 +2,8 @@ package pl.wojdylak.propsi.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+
 @Entity
-
-
 @Table(name = "address")
 public class Address implements Serializable {
 

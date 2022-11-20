@@ -53,8 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/register").permitAll()
                 .antMatchers("/api/users").permitAll()
 
-                .antMatchers("/api/testOwner").hasAuthority(AuthoritiesConstants.OWNER)
-                .antMatchers("api/testTenant").hasAuthority(AuthoritiesConstants.TENANT)
+//                .antMatchers("/api/testOwner").hasAuthority(AuthoritiesConstants.OWNER)
+//                .antMatchers("api/testTenant").hasAuthority(AuthoritiesConstants.TENANT)
                 .and()
                 .formLogin().permitAll();
 

@@ -8,6 +8,7 @@ import pl.wojdylak.propsi.model.Rental;
 import pl.wojdylak.propsi.service.BillService;
 import pl.wojdylak.propsi.service.dto.BillRequestDto;
 import pl.wojdylak.propsi.service.dto.MeterMeasurementRequestDto;
+import pl.wojdylak.propsi.service.dto.payu.PayUAddOrderResponse;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class BillResource {
     public BillResource(BillService billService) {
         this.billService = billService;
     }
+
     @GetMapping("/bills")
     public List<Bill> getAllBills() {
         return this.billService.getAllBills();
@@ -36,18 +38,31 @@ public class BillResource {
 
     @GetMapping("/owners/{ownerId}/bills/{billId}")
     public ResponseEntity<Bill> getBillById(@PathVariable Long ownerId, @PathVariable Long billId) {
-        Bill billById = this.billService.getBillById(ownerId, billId);
-        if(billById != null){
-            return new ResponseEntity<>(billById, HttpStatus.OK) ;
+        //TODO: with or without owner id?
+        Bill billById = this.billService.getBillById( billId);
+        if (billById != null) {
+            return new ResponseEntity<>(billById, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
+    @PostMapping("/owners/{ownerId}/bills/{billId}/pay")
+    public ResponseEntity<PayUAddOrderResponse> createPaymentForBill(@PathVariable Long ownerId, @PathVariable Long billId) {
+//        TODO: with or without owner id?
+        Bill billById = this.billService.getBillById(billId);
+        if (billById != null) {
+            PayUAddOrderResponse paymentForBill = this.billService.createPaymentForBill(billById);
+            if (paymentForBill != null) {
+                return new ResponseEntity<>(paymentForBill, HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 
     @PostMapping("/bills")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addMeterMeasurement(@RequestBody BillRequestDto billRequestDto ) {
+    public void addMeterMeasurement(@RequestBody BillRequestDto billRequestDto) {
 //        System.out.println(billRequestDto);
         billService.addBillForRental(billRequestDto);
     }
