@@ -1,0 +1,16 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="insert6" author="WojdylakJan">
+        <insert tableName="property">
+            <column name="name" value="Kamienica"/>
+            <column name="single_premises" value="false"/>
+            <column name="owner_id" value="1"/>
+        </insert>
+        <insert tableName="property">
+            <column name="name" value="Magazyn"/>
+            <column name="single_premises" value="false"/>
+            <column name="owner_id" value="1"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

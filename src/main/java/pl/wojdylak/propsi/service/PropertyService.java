@@ -1,6 +1,7 @@
 package pl.wojdylak.propsi.service;
 
 import org.springframework.stereotype.Service;
+import pl.wojdylak.propsi.model.Address;
 import pl.wojdylak.propsi.model.Owner;
 import pl.wojdylak.propsi.model.Premises;
 import pl.wojdylak.propsi.model.Property;
@@ -30,6 +31,10 @@ public class PropertyService {
     public void addProperty(Property property, Long ownerId) {
         Optional<Owner> owner = ownerService.getOwner(ownerId);
         if (owner.isPresent()) {
+            Address address = property.getAddress();
+            if(address != null){
+                address.addProperty(property);
+            }
             if (property.isSinglePremises()) {
                 createDefaultPremises(property);
             }

@@ -9,7 +9,7 @@ import java.util.Date;
 @Table(name = "payment")
 public class Payment implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "date")
@@ -29,6 +29,11 @@ public class Payment implements Serializable {
 
     @Column(name = "status")
     private String status;
+
+    @OneToOne
+    @JoinColumn(name = "id")
+    @MapsId
+    private Bill bill;
 
     public Payment() {
     }
@@ -97,6 +102,14 @@ public class Payment implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Bill getBill() {
+        return bill;
+    }
+
+    public void setBill(Bill bill) {
+        this.bill = bill;
     }
 
     @Override

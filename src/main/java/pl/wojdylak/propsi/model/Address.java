@@ -1,6 +1,7 @@
 package pl.wojdylak.propsi.model;
 
 import javax.persistence.*;
+import java.awt.print.Book;
 import java.io.Serializable;
 
 @Entity
@@ -8,7 +9,7 @@ import java.io.Serializable;
 public class Address implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "zip_code")
@@ -25,6 +26,11 @@ public class Address implements Serializable {
 
     @Column(name = "unit_number")
     private String unitNumber;
+
+    @OneToOne
+    @JoinColumn(name = "id")
+    @MapsId
+    private Property property;
 
     public Address() {
     }
@@ -83,6 +89,19 @@ public class Address implements Serializable {
 
     public void setUnitNumber(String unitNumber) {
         this.unitNumber = unitNumber;
+    }
+
+    public Property getProperty() {
+        return property;
+    }
+
+    public void setProperty(Property property) {
+        this.property = property;
+    }
+
+    public void addProperty(Property property) {
+        this.property = property;
+        property.setAddress(this);
     }
 
     @Override

@@ -13,7 +13,7 @@ import java.util.Set;
 @Table(name = "bill")
 public class Bill implements Serializable {
     @Id
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "total_price")
@@ -22,9 +22,10 @@ public class Bill implements Serializable {
     @Column(name = "date")
     private Instant date;
 
+
     //TODO: Change to lazy
-    @OneToOne(fetch = FetchType.EAGER)
-    @MapsId
+    @JsonIgnoreProperties(value = "bill", allowSetters = true)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "bill", fetch = FetchType.EAGER)
     private Payment payment;
 
     //TODO: lazy

@@ -1,0 +1,41 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="2" author="WojdylakJan">
+        <createTable schemaName="public"
+                     tableName="rel_user_authority">
+            <column  name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column  name="authority_name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey columnNames="user_id, authority_name"
+                        constraintName="pk_rel_user_authority"
+                        schemaName="public"
+                       tableName="rel_user_authority"/>
+    </changeSet>
+
+    <changeSet    id="fk1" author="WojdylakJan">
+        <addForeignKeyConstraint  baseColumnNames="user_id"
+                                  baseTableName="rel_user_authority"
+                                  baseTableSchemaName="public"
+                                  constraintName="fk_rel_user_authority_user"
+                                  onDelete="CASCADE"
+                                  onUpdate="RESTRICT"
+                                  referencedColumnNames="id"
+                                  referencedTableName="my_user"
+                                  referencedTableSchemaName="public"/>
+
+        <addForeignKeyConstraint  baseColumnNames="authority_name"
+                                  baseTableName="rel_user_authority"
+                                  baseTableSchemaName="public"
+                                  constraintName="fk_rel_user_authority_authority_name"
+                                  onDelete="CASCADE"
+                                  onUpdate="RESTRICT"
+                                  referencedColumnNames="name"
+                                  referencedTableName="authority"
+                                  referencedTableSchemaName="public"/>
+    </changeSet>
+</databaseChangeLog>

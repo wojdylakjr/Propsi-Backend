@@ -13,7 +13,7 @@ import java.time.Instant;
 @Table(name = "premises_cost_detail")
 public class PremisesCostDetail implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "cost_value")

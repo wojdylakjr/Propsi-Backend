@@ -1,0 +1,16 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="insert2" author="WojdylakJan">
+        <insert tableName="authority">
+            <column  name="name"  value="ROLE_ADMIN"/>
+        </insert>
+        <insert tableName="authority">
+            <column  name="name"  value="ROLE_OWNER"/>
+        </insert>
+        <insert tableName="authority">
+            <column  name="name"  value="ROLE_TENANT"/>
+        </insert>
+
+    </changeSet>
+</databaseChangeLog>

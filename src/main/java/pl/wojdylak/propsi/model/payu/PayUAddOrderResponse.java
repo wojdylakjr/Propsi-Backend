@@ -1,4 +1,4 @@
-package pl.wojdylak.propsi.service.dto.payu;
+package pl.wojdylak.propsi.model.payu;
 
 public class PayUAddOrderResponse {
     private Status status;

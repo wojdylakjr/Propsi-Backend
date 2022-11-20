@@ -1,0 +1,29 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="18" author="WojdylakJan">
+        <createTable schemaName="public"
+                     tableName="payment">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="currency_code" type="varchar(255)"/>
+            <column name="pay_method" type="varchar(255)"/>
+            <column name="payu_payment_id" type="varchar(255)"/>
+            <column name="status" type="varchar(255)"/>
+            <column name="amount" type="numeric(19,2)"/>
+            <column name="date" type="timestamp"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="fk18" author="WojdylakJan">
+        <addForeignKeyConstraint baseColumnNames="id"
+                                 baseTableName="payment"
+                                 baseTableSchemaName="public"
+                                 constraintName="fk_bill_payment"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="bill"
+                                 referencedTableSchemaName="public"/>
+    </changeSet>
+</databaseChangeLog>

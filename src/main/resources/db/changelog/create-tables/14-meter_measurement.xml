@@ -1,0 +1,27 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="14" author="WojdylakJan">
+        <createTable schemaName="public"
+                     tableName="meter_measurement">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="measurement_date" type="timestamp"/>
+            <column name="unit" type="varchar(255)"/>
+            <column name="measurement_value" type="double"/>
+            <column name="meter_id" type="bigint"/>
+        </createTable>
+    </changeSet>
+    <changeSet    id="fk14" author="WojdylakJan">
+        <addForeignKeyConstraint  baseColumnNames="meter_id"
+                                  baseTableName="meter_measurement"
+                                  baseTableSchemaName="public"
+                                  constraintName="fk_meter_measurement"
+                                  onDelete="CASCADE"
+                                  onUpdate="RESTRICT"
+                                  referencedColumnNames="id"
+                                  referencedTableName="meter"
+                                  referencedTableSchemaName="public"/>
+    </changeSet>
+</databaseChangeLog>

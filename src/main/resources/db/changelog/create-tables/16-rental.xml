@@ -1,0 +1,46 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="5" author="WojdylakJan">
+        <createTable schemaName="public"
+                     tableName="rental">
+            <column name="tenant_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="premises_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rental_start_date" type="timestamp"/>
+            <column name="rental_end_date" type="timestamp"/>
+            <column name="name" type="varchar(255)"/>
+            <column name="rent_price" type="numeric(19,2)"/>
+            <column name="costs_part" type="double"/>
+            <column name="payment_day" type="integer"/>
+        </createTable>
+        <addPrimaryKey columnNames="tenant_id, premises_id"
+                       constraintName="pk_rental"
+                       schemaName="public"
+                       tableName="rental"/>
+    </changeSet>
+
+    <changeSet id="fk5" author="WojdylakJan">
+        <addForeignKeyConstraint baseColumnNames="tenant_id"
+                                 baseTableName="rental"
+                                 baseTableSchemaName="public"
+                                 constraintName="fk_rental_tenant"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="tenant"
+                                 referencedTableSchemaName="public"/>
+        <addForeignKeyConstraint baseColumnNames="premises_id"
+                                 baseTableName="rental"
+                                 baseTableSchemaName="public"
+                                 constraintName="fk_rental_premises"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="premises"
+                                 referencedTableSchemaName="public"/>
+    </changeSet>
+</databaseChangeLog>

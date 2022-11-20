@@ -1,0 +1,41 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="5" author="WojdylakJan">
+        <createTable schemaName="public"
+                     tableName="rel_user_owner">
+            <column  name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column  name="owner_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey columnNames="user_id, owner_id"
+                       constraintName="pk_rel_user_owner"
+                       schemaName="public"
+                       tableName="rel_user_owner"/>
+    </changeSet>
+
+    <changeSet    id="fk5" author="WojdylakJan">
+        <addForeignKeyConstraint  baseColumnNames="user_id"
+                                  baseTableName="rel_user_owner"
+                                  baseTableSchemaName="public"
+                                  constraintName="fk_rel_user_owner_user"
+                                  onDelete="CASCADE"
+                                  onUpdate="RESTRICT"
+                                  referencedColumnNames="id"
+                                  referencedTableName="my_user"
+                                  referencedTableSchemaName="public"/>
+
+        <addForeignKeyConstraint  baseColumnNames="owner_id"
+                                  baseTableName="rel_user_owner"
+                                  baseTableSchemaName="public"
+                                  constraintName="fk_rel_user_owner_owner"
+                                  onDelete="CASCADE"
+                                  onUpdate="RESTRICT"
+                                  referencedColumnNames="id"
+                                  referencedTableName="owner"
+                                  referencedTableSchemaName="public"/>
+    </changeSet>
+</databaseChangeLog>

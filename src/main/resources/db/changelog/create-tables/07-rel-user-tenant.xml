@@ -1,0 +1,41 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="7" author="WojdylakJan">
+        <createTable schemaName="public"
+                     tableName="rel_user_tenant">
+            <column  name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column  name="tenant_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey columnNames="user_id, tenant_id"
+                       constraintName="pk_rel_user_tenant"
+                       schemaName="public"
+                       tableName="rel_user_tenant"/>
+    </changeSet>
+
+    <changeSet    id="fk5" author="WojdylakJan">
+        <addForeignKeyConstraint  baseColumnNames="user_id"
+                                  baseTableName="rel_user_tenant"
+                                  baseTableSchemaName="public"
+                                  constraintName="fk_rel_user_tenant_user"
+                                  onDelete="CASCADE"
+                                  onUpdate="RESTRICT"
+                                  referencedColumnNames="id"
+                                  referencedTableName="my_user"
+                                  referencedTableSchemaName="public"/>
+
+        <addForeignKeyConstraint  baseColumnNames="tenant_id"
+                                  baseTableName="rel_user_tenant"
+                                  baseTableSchemaName="public"
+                                  constraintName="fk_rel_user_tenant_tenant"
+                                  onDelete="CASCADE"
+                                  onUpdate="RESTRICT"
+                                  referencedColumnNames="id"
+                                  referencedTableName="tenant"
+                                  referencedTableSchemaName="public"/>
+    </changeSet>
+</databaseChangeLog>

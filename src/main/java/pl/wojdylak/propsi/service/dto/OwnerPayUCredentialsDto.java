@@ -1,4 +1,4 @@
-package pl.wojdylak.propsi.service.dto.payu;
+package pl.wojdylak.propsi.service.dto;
 
 import javax.persistence.Column;
 

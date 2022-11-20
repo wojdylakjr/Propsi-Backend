@@ -3,9 +3,9 @@ package pl.wojdylak.propsi.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;
 import pl.wojdylak.propsi.model.*;
-import pl.wojdylak.propsi.service.dto.payu.PayUAddOrderResponse;
-import pl.wojdylak.propsi.service.dto.payu.PayUOrderRequest;
-import pl.wojdylak.propsi.service.dto.payu.PayUTokenResponse;
+import pl.wojdylak.propsi.model.payu.PayUAddOrderResponse;
+import pl.wojdylak.propsi.model.payu.PayUOrderRequest;
+import pl.wojdylak.propsi.model.payu.PayUTokenResponse;
 import pl.wojdylak.propsi.webclient.payu.PayUClient;
 
 import java.math.BigDecimal;

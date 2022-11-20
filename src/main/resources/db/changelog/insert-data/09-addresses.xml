@@ -1,0 +1,20 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="insert6" author="WojdylakJan">
+        <insert tableName="address">
+            <column  name="city"  value="Krakow"/>
+            <column  name="street"  value="Topolowa"/>
+            <column  name="street_number"  value="5"/>
+            <column  name="unit_number"  value="1"/>
+            <column  name="zip_code"  value="31-236"/>
+        </insert>
+        <insert tableName="address">
+            <column  name="city"  value="Przemysl"/>
+            <column  name="street"  value="Klonowa"/>
+            <column  name="street_number"  value="3"/>
+            <column  name="unit_number"  value="1"/>
+            <column  name="zip_code"  value="37-700"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

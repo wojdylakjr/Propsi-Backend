@@ -3,9 +3,7 @@ package pl.wojdylak.propsi.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.wojdylak.propsi.service.BillService;
-import pl.wojdylak.propsi.service.PayUService;
-import pl.wojdylak.propsi.service.dto.PremisesCostDetailRequestDto;
-import pl.wojdylak.propsi.service.dto.payu.PayUPaymentNotification;
+import pl.wojdylak.propsi.model.payu.PayUPaymentNotification;
 
 @RestController
 @RequestMapping("/api")

@@ -1,0 +1,27 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="15" author="WojdylakJan">
+        <createTable schemaName="public"
+                     tableName="premises_cost_detail">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="date" type="timestamp"/>
+            <column name="unit" type="varchar(255)"/>
+            <column name="cost_value" type="numeric(19,2)"/>
+            <column name="premises_cost_id" type="bigint"/>
+        </createTable>
+    </changeSet>
+    <changeSet    id="fk15" author="WojdylakJan">
+        <addForeignKeyConstraint  baseColumnNames="premises_cost_id"
+                                  baseTableName="premises_cost_detail"
+                                  baseTableSchemaName="public"
+                                  constraintName="fk_cost_detail"
+                                  onDelete="CASCADE"
+                                  onUpdate="RESTRICT"
+                                  referencedColumnNames="id"
+                                  referencedTableName="premises_cost"
+                                  referencedTableSchemaName="public"/>
+    </changeSet>
+</databaseChangeLog>

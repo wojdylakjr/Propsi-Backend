@@ -20,7 +20,7 @@ public class PropertyFixedCost implements Serializable {
     @Column(name = "cost_value")
     private BigDecimal costValue;
 
-    @JsonIgnore
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "property_id")
     private Property property;

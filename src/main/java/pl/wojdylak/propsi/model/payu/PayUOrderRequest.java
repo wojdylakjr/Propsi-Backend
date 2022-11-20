@@ -1,6 +1,5 @@
-package pl.wojdylak.propsi.service.dto.payu;
+package pl.wojdylak.propsi.model.payu;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PayUOrderRequest {

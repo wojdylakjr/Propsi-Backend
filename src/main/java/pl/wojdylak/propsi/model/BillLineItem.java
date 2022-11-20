@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Table(name = "bill_line_item")
 public class BillLineItem {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name")

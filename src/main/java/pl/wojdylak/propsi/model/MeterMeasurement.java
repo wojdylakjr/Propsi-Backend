@@ -15,7 +15,7 @@ import java.time.Instant;
 public class MeterMeasurement implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "measurement_value")

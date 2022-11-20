@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.wojdylak.propsi.model.Owner;
 import pl.wojdylak.propsi.service.OwnerService;
-import pl.wojdylak.propsi.service.dto.payu.OwnerPayUCredentialsDto;
+import pl.wojdylak.propsi.service.dto.OwnerPayUCredentialsDto;
 
 import java.util.List;
 

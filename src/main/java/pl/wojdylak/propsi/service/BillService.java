@@ -6,8 +6,8 @@ import pl.wojdylak.propsi.repository.BillLineItemRepository;
 import pl.wojdylak.propsi.repository.BillRepository;
 import pl.wojdylak.propsi.repository.PaymentRepository;
 import pl.wojdylak.propsi.service.dto.BillRequestDto;
-import pl.wojdylak.propsi.service.dto.payu.PayUAddOrderResponse;
-import pl.wojdylak.propsi.service.dto.payu.PayUPaymentNotification;
+import pl.wojdylak.propsi.model.payu.PayUAddOrderResponse;
+import pl.wojdylak.propsi.model.payu.PayUPaymentNotification;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -82,7 +82,9 @@ public class BillService {
             Bill bill = new Bill();
             bill.addRental(rental);
             bill.setDate(instant);
-            bill.setPayment(new Payment());
+            Payment payment = new Payment();
+            payment.setBill(bill);
+            bill.setPayment(payment);
 //            this.billRepository.saveAndFlush(bill);
             Set<BillLineItem> billLineItems = new HashSet<>();
             BillLineItem rentPriceBillLine = new BillLineItem();

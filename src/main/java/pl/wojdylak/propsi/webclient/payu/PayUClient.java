@@ -7,9 +7,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import pl.wojdylak.propsi.service.dto.payu.PayUAddOrderResponse;
-import pl.wojdylak.propsi.service.dto.payu.PayUOrderRequest;
-import pl.wojdylak.propsi.service.dto.payu.PayUTokenResponse;
+import pl.wojdylak.propsi.model.payu.PayUAddOrderResponse;
+import pl.wojdylak.propsi.model.payu.PayUOrderRequest;
+import pl.wojdylak.propsi.model.payu.PayUTokenResponse;
 
 @Component
 public class PayUClient {

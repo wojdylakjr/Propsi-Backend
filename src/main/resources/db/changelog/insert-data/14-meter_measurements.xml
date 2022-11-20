@@ -1,0 +1,18 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="insert14" author="WojdylakJan">
+        <insert tableName="meter_measurement">
+            <column  name="unit"  value="m3"/>
+            <column  name="measurement_value"  value="1553"/>
+            <column  name="measurement_date"  value="2022-11-20 00:00:00"/>
+            <column  name="meter_id"  value="1"/>
+        </insert>
+        <insert tableName="meter_measurement">
+            <column  name="unit"  value="kwh"/>
+            <column  name="measurement_value"  value="1553"/>
+            <column  name="measurement_date"  value="2022-11-20 00:00:00"/>
+            <column  name="meter_id"  value="2"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

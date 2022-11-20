@@ -1,0 +1,12 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="insert4" author="WojdylakJan">
+        <insert tableName="owner">
+            <column  name="name"  value="Owner admin"/>
+        </insert>
+        <insert tableName="owner">
+            <column  name="name"  value="Owner2 admin"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

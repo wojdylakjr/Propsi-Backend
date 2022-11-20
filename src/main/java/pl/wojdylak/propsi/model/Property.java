@@ -14,7 +14,7 @@ import java.util.Set;
 public class Property implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name")
@@ -29,10 +29,11 @@ public class Property implements Serializable {
     private Owner owner;
 
     //TODO: Change to lazy
-    @OneToOne(fetch = FetchType.EAGER)
-    @MapsId
+    @JsonIgnoreProperties(value = "property", allowSetters = true)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "property", fetch = FetchType.EAGER)
     private Address address;
 
+    @JsonIgnoreProperties(value = "property", allowSetters = true)
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     private Set<PropertyFixedCost> fixedCosts = new HashSet<>();
 

@@ -1,0 +1,17 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="4" author="WojdylakJan">
+        <createTable schemaName="public"
+                     tableName="owner">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)"/>
+            <column name="payu_access_token" type="varchar(255)"/>
+            <column name="payu_client_id" type="varchar(255)"/>
+            <column name="payu_client_secret" type="varchar(255)"/>
+            <column name="payu_access_token_expiration" type="timestamp"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

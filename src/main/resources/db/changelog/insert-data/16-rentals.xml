@@ -1,0 +1,36 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="insert16" author="WojdylakJan">
+        <insert tableName="rental">
+            <column  name="tenant_id"  value="1"/>
+            <column  name="premises_id"  value="1"/>
+            <column  name="rental_start_date"  value="2022-11-19 00:00:00"/>
+            <column  name="rental_end_date"  value="2023-11-20 00:00:00"/>
+            <column  name="payment_day"  value="10"/>
+            <column  name="name"  value="Wynajem 1."/>
+            <column  name="rent_price"  value="1000"/>
+            <column  name="costs_part"  value="0.5"/>
+        </insert>
+        <insert tableName="rental">
+            <column  name="tenant_id"  value="2"/>
+            <column  name="premises_id"  value="1"/>
+            <column  name="rental_start_date"  value="2022-11-19 00:00:00"/>
+            <column  name="rental_end_date"  value="2023-11-20 00:00:00"/>
+            <column  name="payment_day"  value="10"/>
+            <column  name="name"  value="Wynajem 2."/>
+            <column  name="rent_price"  value="1000"/>
+            <column  name="costs_part"  value="0.5"/>
+        </insert>
+        <insert tableName="rental">
+            <column  name="tenant_id"  value="3"/>
+            <column  name="premises_id"  value="2"/>
+            <column  name="rental_start_date"  value="2022-11-19 00:00:00"/>
+            <column  name="rental_end_date"  value="2023-11-20 00:00:00"/>
+            <column  name="payment_day"  value="10"/>
+            <column  name="name"  value="Wynajem 3."/>
+            <column  name="rent_price"  value="2000"/>
+            <column  name="costs_part"  value="1"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

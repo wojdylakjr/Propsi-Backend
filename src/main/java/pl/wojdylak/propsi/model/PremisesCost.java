@@ -15,7 +15,7 @@ import java.util.Set;
 @Table(name = "premises_cost")
 public class PremisesCost implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 //    back to enum?
