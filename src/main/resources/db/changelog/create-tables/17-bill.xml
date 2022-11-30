@@ -24,14 +24,5 @@
                                  referencedColumnNames="premises_id, tenant_id"
                                  referencedTableName="rental"
                                  referencedTableSchemaName="public"/>
-<!--        <addForeignKeyConstraint baseColumnNames="rental_tenant_id"-->
-<!--                                 baseTableName="bill"-->
-<!--                                 baseTableSchemaName="public"-->
-<!--                                 constraintName="fk_bill_rental_tenant_id"-->
-<!--                                 onDelete="CASCADE"-->
-<!--                                 onUpdate="RESTRICT"-->
-<!--                                 referencedColumnNames="tenant_id"-->
-<!--                                 referencedTableName="rental"-->
-<!--                                 referencedTableSchemaName="public"/>-->
     </changeSet>
 </databaseChangeLog>

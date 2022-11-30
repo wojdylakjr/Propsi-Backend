@@ -17,14 +17,14 @@ spring:
     change-log: classpath:/db/changelog/db.changelog.xml
 
 
-logging:
-  level:
-    org:
-      hibernate:
-        SQL: debug
-        type:
-          descriptor:
-            sql: trace
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        SQL: debug
+#        type:
+#          descriptor:
+#            sql: trace
 
 
 #  jackson:

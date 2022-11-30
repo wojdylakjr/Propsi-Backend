@@ -6,6 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import pl.wojdylak.propsi.model.Owner;
 import pl.wojdylak.propsi.model.User;
 import pl.wojdylak.propsi.security.AuthoritiesConstants;
 import pl.wojdylak.propsi.service.UserService;

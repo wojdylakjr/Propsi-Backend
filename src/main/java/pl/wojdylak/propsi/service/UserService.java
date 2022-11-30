@@ -3,10 +3,7 @@ package pl.wojdylak.propsi.service;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.wojdylak.propsi.model.Authority;
-import pl.wojdylak.propsi.model.Owner;
-import pl.wojdylak.propsi.model.Tenant;
-import pl.wojdylak.propsi.model.User;
+import pl.wojdylak.propsi.model.*;
 import pl.wojdylak.propsi.repository.AuthorityRepository;
 import pl.wojdylak.propsi.repository.UserRepository;
 import pl.wojdylak.propsi.service.dto.ManagedUser;
@@ -16,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -58,7 +56,7 @@ public class UserService {
 
     private void createProfilesForUser(UserDto user, User newUser) {
         String ownerName = "Owner " + newUser.getFirstName() + " " + newUser.getLastName();
-        String tenantName = "Tenant "+ newUser.getFirstName() + " " + newUser.getLastName();
+        String tenantName = "Tenant " + newUser.getFirstName() + " " + newUser.getLastName();
 
         if (user.getAuthorities().contains("ROLE_TENANT") && user.getAuthorities().contains("ROLE_OWNER")) {
             newUser.addOwner(new Owner(ownerName));

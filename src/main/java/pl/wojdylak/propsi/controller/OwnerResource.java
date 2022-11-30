@@ -4,9 +4,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.wojdylak.propsi.model.Owner;
+import pl.wojdylak.propsi.model.User;
 import pl.wojdylak.propsi.service.OwnerService;
 import pl.wojdylak.propsi.service.dto.OwnerPayUCredentialsDto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -41,4 +43,10 @@ public class OwnerResource {
         return new ResponseEntity<>(owner, HttpStatus.OK);
     }
 
+    @GetMapping("/owners/{ownerId}/users")
+    @ResponseStatus(HttpStatus.OK)
+    public List<User> getAllUsersForOwner(@PathVariable Long ownerId) {
+        Owner owner = ownerService.getOwner(ownerId).get();
+        return new ArrayList<>(owner.getUsers());
+    }
 }
