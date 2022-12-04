@@ -41,23 +41,21 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     String email = decodedJWT.getSubject();
                     String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
                     Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-                    stream(roles).forEach(role ->{
+                    stream(roles).forEach(role -> {
                         authorities.add(new SimpleGrantedAuthority(role));
                     });
                     System.out.println(Arrays.toString(authorities.toArray()));
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email, null, authorities);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                    filterChain.doFilter(request,response);
+                    filterChain.doFilter(request, response);
                 } catch (Exception e) {
                     e.printStackTrace();
                     response.setHeader("error", "wrong jwt");
                     response.setStatus(FORBIDDEN.value());
 //                    new ObjectMapper().writeValue();
                 }
-
-
-            }else {
-                filterChain.doFilter(request,response);
+            } else {
+                filterChain.doFilter(request, response);
             }
         }
     }

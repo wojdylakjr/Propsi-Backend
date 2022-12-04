@@ -41,6 +41,12 @@ public class Bill implements Serializable {
     @OneToMany(mappedBy = "bill", cascade = CascadeType.ALL)
     private Set<BillLineItem> billLineItems = new HashSet<>();
 
+    public Bill() {
+    }
+
+    public Bill(Instant date) {
+        this.date = date;
+    }
 
     public Long getId() {
         return id;

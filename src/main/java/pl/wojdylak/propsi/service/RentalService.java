@@ -67,4 +67,12 @@ public class RentalService {
         return null;
     }
 
+    public List<Rental> getAllRentalsForTenant(Long tenantId) {
+        return rentalRepository.findAllByIdTenantId(tenantId);
+    }
+
+    public Rental getTenantRentalById(Long tenantId, Long premisesId) {
+        Optional<Rental> rentalByTenantIdAndPremisesId = rentalRepository.findByIdTenantIdAndIdPremisesId(tenantId, premisesId);
+        return rentalByTenantIdAndPremisesId.orElse(null);
+    }
 }

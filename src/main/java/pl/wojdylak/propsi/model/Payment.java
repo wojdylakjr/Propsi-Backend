@@ -38,8 +38,7 @@ public class Payment implements Serializable {
     public Payment() {
     }
 
-    public Payment(Long id, Date date, String payUPaymentId, BigDecimal amount, String payMethod, String currencyCode, String status) {
-        this.id = id;
+    public Payment( Date date, String payUPaymentId, BigDecimal amount, String payMethod, String currencyCode, String status) {
         this.date = date;
         this.payUPaymentId = payUPaymentId;
         this.amount = amount;
@@ -110,6 +109,11 @@ public class Payment implements Serializable {
 
     public void setBill(Bill bill) {
         this.bill = bill;
+    }
+
+    public void addBill(Bill bill){
+        this.bill = bill;
+        bill.setPayment(this);
     }
 
     @Override

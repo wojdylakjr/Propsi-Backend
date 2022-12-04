@@ -26,6 +26,16 @@ public class BillLineItem {
     @JoinColumn(name = "bill_id")
     private Bill bill;
 
+    public BillLineItem(){
+
+    }
+
+    public BillLineItem(String name, BigDecimal price, String unit){
+        this.name = name;
+        this.price = price;
+        this.unit = unit;
+    }
+
 
     public Long getId() {
         return id;

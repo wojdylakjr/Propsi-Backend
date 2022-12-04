@@ -22,7 +22,8 @@ public class PayUService {
     private final UserService userService;
     private final OwnerService ownerService;
 
-    private final String NOTIFY_URL = "https://5c46-5-173-48-82.eu.ngrok.io/api/payu/notify";
+    private final String NGROK_URL = "https://201f-78-8-49-114.eu.ngrok.io";
+    private final String NOTIFY_URL = NGROK_URL + "/api/payu/notify";
     private final String CUSTOMER_IP = "127.0.0.1";
     private final String CURRENCY_CODE = "PLN";
     private final String CONTINUE_URL = "https://www.onet.pl";
@@ -33,53 +34,46 @@ public class PayUService {
         this.ownerService = ownerService;
     }
 
-    private void authorize(String payUClientId, String payUClientSecret, Long ownerId) {
+    private void authenticate(String payUClientId, String payUClientSecret, Long ownerId) {
         PayUTokenResponse payUTokenResponse = payUClient.authorizeClient(payUClientId, payUClientSecret);
         this.ownerService.updatePayUToken(payUTokenResponse.getAccess_token(), payUTokenResponse.getExpires_in(), ownerId);
     }
 
-    public PayUAddOrderResponse addOrder(Bill bill) {
+    public PayUAddOrderResponse addOrder(Bill bill) throws Exception {
         Rental rental = bill.getRental();
-        Tenant tenant = rental.getTenant();
         Owner owner = rental.getPremises().getProperty().getOwner();
         Optional<User> currentUser = userService.getCurrentUser();
-        User user = new User();
-        if (currentUser.isPresent()) {
-            user = currentUser.get();
-        } else {
-            //TODO; add exception
-            //   throw new Exception("not user found");
-        }
 
+        if (currentUser.isEmpty()) {
+            throw new Exception("User not found");
+        }
         if (owner.getPayUClientId() == null || owner.getPayUClientSecret() == null) {
-            //TODO: exception - no payU account for this owner
-            System.out.println("no payU account for this owner");
-            return null;
+            throw new Exception("no payU account for this owner");
         }
         if (owner.getPayUAccessToken() == null || owner.getPayUAccessTokenExpiration().isAfter(Instant.now())) {
-            authorize(owner.getPayUClientId(), owner.getPayUClientSecret(), owner.getId());
+            authenticate(owner.getPayUClientId(), owner.getPayUClientSecret(), owner.getId());
         }
-
-        String orderDescription = tenant.getName() + " monthly bill for " + LocalDate.ofInstant(bill.getDate(), ZoneId.of("Europe/Paris")).getMonth().name();
-        PayUOrderRequest payUOrderRequest = new PayUOrderRequest(NOTIFY_URL, CUSTOMER_IP, owner.getPayUClientId(), orderDescription, CURRENCY_CODE, convertBigDecimalToString(bill.getTotalPrice()), CONTINUE_URL, bill.getId().toString());
+        User user = currentUser.get();
+        String orderDescription = bill.getRental().getTenant().getName() + " monthly bill for " + LocalDate.ofInstant(bill.getDate(), ZoneId.of("Europe/Paris")).getMonth().name();
+        PayUOrderRequest payUOrderRequestObject = new PayUOrderRequest(NOTIFY_URL, CUSTOMER_IP, owner.getPayUClientId(), orderDescription, CURRENCY_CODE, convertBigDecimalToString(bill.getTotalPrice()), CONTINUE_URL, bill.getId().toString());
         PayUOrderRequest.Buyer buyer = new PayUOrderRequest.Buyer(user.getEmail(), user.getFirstName(), user.getLastName());
         PayUOrderRequest.Product product = new PayUOrderRequest.Product("Bill", convertBigDecimalToString(bill.getTotalPrice()), "1");
-        payUOrderRequest.setBuyer(buyer);
-        payUOrderRequest.setProducts(Collections.singletonList(product));
+        payUOrderRequestObject.setBuyer(buyer);
+        payUOrderRequestObject.setProducts(Collections.singletonList(product));
         PayUAddOrderResponse payUAddOrderResponse = null;
         try {
-            payUAddOrderResponse = this.payUClient.addOrder(payUOrderRequest, owner.getPayUAccessToken());
+            payUAddOrderResponse = this.payUClient.addOrder(payUOrderRequestObject, owner.getPayUAccessToken());
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        System.out.println(payUOrderRequest);
+        System.out.println(payUOrderRequestObject);
         System.out.println(payUAddOrderResponse);
 
         return payUAddOrderResponse;
     }
 
-    private String convertBigDecimalToString(BigDecimal number){
-      return number.multiply(BigDecimal.valueOf(100)).setScale(0, RoundingMode.UP).toString();
+    private String convertBigDecimalToString(BigDecimal number) {
+        return number.multiply(BigDecimal.valueOf(100)).setScale(0, RoundingMode.UP).toString();
     }
 
 }

@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class RentalResource {
+public class  RentalResource {
 
     private final RentalRepository rentalRepository;
     private final RentalService rentalService;
@@ -47,5 +47,19 @@ public class RentalResource {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(ownerRentalById, HttpStatus.OK);
+    }
+
+    @GetMapping("/tenants/{tenantId}/rentals")
+    public List<Rental> getAllRentalsForTenant(@PathVariable Long tenantId) {
+        return this.rentalService.getAllRentalsForTenant(tenantId);
+    }
+
+    @GetMapping("/tenants/{tenantId}/rentals/{premisesId}")
+    public ResponseEntity<Rental> getTenantRentalById(@PathVariable Long tenantId, @PathVariable Long premisesId) {
+        Rental tenantRentalById = this.rentalService.getTenantRentalById(tenantId, premisesId);
+        if (tenantRentalById == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(tenantRentalById, HttpStatus.OK);
     }
 }

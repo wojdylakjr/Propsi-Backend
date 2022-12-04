@@ -70,54 +70,41 @@ public class BillService {
         }
     }
 
-    public void generateBillsForRentalsInPremises(Long ownerId, Long premisesId) {
+    public void generateBillsForRentalsInPremises(Long ownerId, Long premisesId, int monthValue) {
         Premises premises = premisesService.getOwnerPremisesId(ownerId, premisesId);
-        Set<Rental> rentals = premises.getRentals();
         Instant instant = Instant.now();
 
-        LocalDate localDate = LocalDate.ofInstant(instant, ZoneId.of("Europe/Paris"));
-        for (Rental rental : rentals) {
+        for (Rental rental : premises.getRentals()) {
             BigDecimal totalBillPrice = BigDecimal.valueOf(0);
-
-            Bill bill = new Bill();
+            Bill bill = new Bill(instant);
             bill.addRental(rental);
-            bill.setDate(instant);
-            Payment payment = new Payment();
-            payment.setBill(bill);
-            bill.setPayment(payment);
-//            this.billRepository.saveAndFlush(bill);
-            Set<BillLineItem> billLineItems = new HashSet<>();
-            BillLineItem rentPriceBillLine = new BillLineItem();
-            rentPriceBillLine.setPrice(rental.getRentPrice());
-            rentPriceBillLine.setName("Rent price");
-            rentPriceBillLine.addBill(bill);
-            billLineItems.add(rentPriceBillLine);
-            totalBillPrice = totalBillPrice.add(rental.getRentPrice());
-//            billLineItemRepository.saveAndFlush(rentPriceBillLine);
+            totalBillPrice = addNewLineToBill(totalBillPrice, bill, new BillLineItem("Rent price", rental.getRentPrice(), "PLN"));
             for (PremisesCost cost : premises.getPremisesCosts()) {
                 for (PremisesCostDetail costDetail : cost.getPremisesCostDetails()) {
-                    if (LocalDate.ofInstant(costDetail.getDate(), ZoneId.of("Europe/Paris")).getMonthValue() == localDate.getMonthValue()) {
-                        BillLineItem billLineItem = new BillLineItem();
-                        billLineItem.setName(cost.getCostType());
-                        BigDecimal costPrice = costDetail.getCostValue().multiply(BigDecimal.valueOf(rental.getCostsPart()));
-                        billLineItem.setPrice(costPrice);
-                        billLineItem.setUnit(costDetail.getUnit());
-                        billLineItem.addBill(bill);
-                        billLineItems.add(billLineItem);
-                        totalBillPrice = totalBillPrice.add(costPrice);
-//                        this.billLineItemRepository.saveAndFlush(billLineItem);
+                    if (LocalDate.ofInstant(costDetail.getDate(), ZoneId.of("Europe/Paris")).getMonthValue() == monthValue) {
+                        BigDecimal dividedCostPrice = costDetail.getCostValue().multiply(BigDecimal.valueOf(rental.getCostsPart()));
+                        totalBillPrice = addNewLineToBill(totalBillPrice, bill, new BillLineItem(cost.getCostType(), dividedCostPrice, costDetail.getUnit()));
                     }
                 }
             }
-            bill.setBillLineItems(billLineItems);
             bill.setTotalPrice(totalBillPrice);
             this.billRepository.save(bill);
         }
     }
 
+    private BigDecimal addNewLineToBill(BigDecimal totalBillPrice, Bill bill, BillLineItem billLineItem) {
+        billLineItem.addBill(bill);
+        return totalBillPrice.add(billLineItem.getPrice());
+    }
+
 
     public PayUAddOrderResponse createPaymentForBill(Bill billById) {
-        return this.payUService.addOrder(billById);
+        try {
+            return this.payUService.addOrder(billById);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public void addPaymentResponse(PayUPaymentNotification paymentNotification) {
@@ -127,14 +114,14 @@ public class BillService {
             System.out.println("Bill not found for id: " + extOrderId);
             return;
         }
-        Payment payment = new Payment(bill.getPayment().getId(),
+        Payment payment = new Payment(
                 paymentNotification.getLocalReceiptDateTime(),
                 paymentNotification.getProperties().get(0).getValue(),
-                BigDecimal.valueOf(Double.parseDouble(paymentNotification.getOrder().getPayMethod().getAmount())/100.0),
+                BigDecimal.valueOf(Double.parseDouble(paymentNotification.getOrder().getPayMethod().getAmount()) / 100.0),
                 paymentNotification.getOrder().getPayMethod().getType(),
                 paymentNotification.getOrder().getCurrencyCode(),
                 paymentNotification.getOrder().getStatus());
-
+        payment.addBill(bill);
         this.paymentRepository.save(payment);
 
     }

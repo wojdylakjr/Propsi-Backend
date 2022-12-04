@@ -8,6 +8,9 @@ import pl.wojdylak.propsi.service.BillService;
 import pl.wojdylak.propsi.service.dto.BillRequestDto;
 import pl.wojdylak.propsi.model.payu.PayUAddOrderResponse;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 @RestController
@@ -69,6 +72,6 @@ public class BillResource {
     @ResponseStatus(HttpStatus.CREATED)
     public void generateBillsForRentalsInPremises(@PathVariable Long ownerId, @PathVariable Long premisesId) {
 //        System.out.println(billRequestDto);
-        billService.generateBillsForRentalsInPremises(ownerId, premisesId);
+        billService.generateBillsForRentalsInPremises(ownerId, premisesId, LocalDate.ofInstant(Instant.now(), ZoneId.of("Europe/Paris")).getMonthValue());
     }
 }
