@@ -19,7 +19,7 @@ public class TenantResource {
     }
 
 
-    @GetMapping("/tenants")
+    @GetMapping("admin/tenants")
     public List<Tenant> getAllTenants() {
         return tenantRepository.findAll();
     }

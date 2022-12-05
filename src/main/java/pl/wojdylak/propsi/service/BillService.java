@@ -46,8 +46,16 @@ public class BillService {
     }
 
     public List<Bill> getAllBillsForOwner(Long ownerId) {
-        return this.billRepository.findAll().stream()
+        return this.billRepository.findAll()
+                .stream()
                 .filter(bill -> bill.getRental().getPremises().getProperty().getOwner().getId().equals(ownerId))
+                .collect(Collectors.toList());
+    }
+
+    public List<Bill> getAllBillsForTenant(Long tenantId) {
+        return this.billRepository.findAll()
+                .stream()
+                .filter(bill -> bill.getRental().getId().getTenantId().equals(tenantId))
                 .collect(Collectors.toList());
     }
 
@@ -125,4 +133,6 @@ public class BillService {
         this.paymentRepository.save(payment);
 
     }
+
+
 }

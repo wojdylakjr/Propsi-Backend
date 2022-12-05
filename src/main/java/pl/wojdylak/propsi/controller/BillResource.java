@@ -32,6 +32,11 @@ public class BillResource {
         return this.billService.getAllBillsForRental(premisesId, tenantId);
     }
 
+    @GetMapping("/tenants/{tenantId}/bills")
+    public List<Bill> getAllBillsForTenant(@PathVariable Long tenantId) {
+        return this.billService.getAllBillsForTenant(tenantId);
+    }
+
     @GetMapping("/owners/{ownerId}/bills")
     public List<Bill> getAllBillsForOwner(@PathVariable Long ownerId) {
         return this.billService.getAllBillsForOwner(ownerId);
@@ -47,8 +52,19 @@ public class BillResource {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/owners/{ownerId}/bills/{billId}/pay")
-    public ResponseEntity<PayUAddOrderResponse> createPaymentForBill(@PathVariable Long ownerId, @PathVariable Long billId) {
+    @GetMapping("/tenants/{tenantId}/bills/{billId}")
+    public ResponseEntity<Bill> getTenantBillById(@PathVariable Long tenantId, @PathVariable Long billId) {
+        //TODO: with or without owner id?
+        Bill billById = this.billService.getBillById( billId);
+        if (billById != null) {
+            return new ResponseEntity<>(billById, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+
+    @PostMapping("/tenants/{tenantId}/bills/{billId}/pay")
+    public ResponseEntity<PayUAddOrderResponse> createPaymentForBill(@PathVariable Long tenantId, @PathVariable Long billId) {
 //        TODO: with or without owner id?
         Bill billById = this.billService.getBillById(billId);
         if (billById != null) {

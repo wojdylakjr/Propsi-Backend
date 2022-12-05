@@ -28,7 +28,7 @@ public class MeterService {
     public List<Meter> getAllMetersForOnePremises(Long ownerId, Long premisesId) {
         return this.meterRepository.findAll()
                 .stream()
-                .filter(meter -> meter.getPremises().getId().equals(premisesId) && meter.getPremises().getProperty().getOwner().getId().equals(ownerId))
+                .filter(meter -> meter.getPremises().getId().equals(premisesId))
                 .collect(Collectors.toList());
     }
 

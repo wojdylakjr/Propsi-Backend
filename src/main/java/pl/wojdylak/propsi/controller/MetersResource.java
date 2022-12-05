@@ -26,9 +26,19 @@ public class MetersResource {
         return this.meterService.getAllMetersForOnePremises(ownerId, premisesId);
     }
 
+    @GetMapping("/tenants/{tenantId}/premises/{premisesId}/meters")
+    public List<Meter> getPremisesCostForOneTenantPremises(@PathVariable Long tenantId, @PathVariable Long premisesId) {
+        return this.meterService.getAllMetersForOnePremises(tenantId, premisesId);
+    }
+
     @GetMapping("/owners/{ownerId}/premises/{premisesId}/metersMeasurements")
-    public List<MeterMeasurement> getAllMetersMeasurementsForOnePremises(@PathVariable Long ownerId, @PathVariable Long premisesId) {
+    public List<MeterMeasurement> getAllMetersMeasurementsForOneOwnerPremises(@PathVariable Long ownerId, @PathVariable Long premisesId) {
         return this.meterService.getAllMetersMeasurementsForOnePremises(ownerId, premisesId);
+    }
+
+    @GetMapping("/tenants/{tenantId}/premises/{premisesId}/metersMeasurements")
+    public List<MeterMeasurement> getAllMetersMeasurementsForOneTenantPremises(@PathVariable Long tenantId, @PathVariable Long premisesId) {
+        return this.meterService.getAllMetersMeasurementsForOnePremises(tenantId, premisesId);
     }
 
     @PostMapping("/meterMeasurements")

@@ -23,7 +23,7 @@ public class UserResource {
         this.userService = userService;
     }
 
-    @GetMapping("/users")
+    @GetMapping("admin/users")
     public ResponseEntity<List<User>> getAllUsers(){
         List<User> users = userService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);

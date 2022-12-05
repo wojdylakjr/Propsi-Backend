@@ -27,7 +27,7 @@ public class OwnerResource {
         System.out.println("owner: " + ownerService.getOwner(ownerId).get());
         return new ResponseEntity<Owner>(ownerService.getOwner(ownerId).get(), HttpStatus.OK);
     }
-    @GetMapping("/owners")
+    @GetMapping("admin/owners")
     @ResponseStatus(HttpStatus.OK)
     public List<Owner> getAllOwners() {
         return ownerService.getAllOwners();
