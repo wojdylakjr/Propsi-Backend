@@ -85,4 +85,8 @@ public class UserService {
         System.out.println("Security context: " + name);
         return userRepository.findByEmail(name);
     }
+
+    public User getUserById(Long userId) {
+        return this.userRepository.findById(userId).get();
+    }
 }

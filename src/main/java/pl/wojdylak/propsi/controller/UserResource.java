@@ -29,6 +29,12 @@ public class UserResource {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @GetMapping("admin/users/{userId}")
+    public ResponseEntity<User> getUserById(@PathVariable Long userId){
+       User user = userService.getUserById(userId);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
 //    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.OWNER + "\")")
     @GetMapping("/testOwner")
     public ResponseEntity<String> test(){
