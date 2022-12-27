@@ -41,6 +41,14 @@ public class Property implements Serializable {
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     private Set<Premises> premises = new HashSet<>();
 
+
+    public Property(){
+
+    }
+    public Property(String name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }
