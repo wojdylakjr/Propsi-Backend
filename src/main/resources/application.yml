@@ -5,11 +5,16 @@ spring:
       path: /h2
   datasource:
     url: jdbc:h2:mem:propsi
+    NON_KEYWORDS: user
     username: sa
     password:
     driverClassName: org.h2.Driver
   jpa:
     spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
     hibernate:
       ddl-auto: validate
 

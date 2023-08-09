@@ -1,13 +1,12 @@
 package pl.wojdylak.propsi.service;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.wojdylak.propsi.model.Premises;
 import pl.wojdylak.propsi.model.Rental;
 import pl.wojdylak.propsi.model.RentalId;
 import pl.wojdylak.propsi.model.Tenant;
 import pl.wojdylak.propsi.repository.RentalRepository;
-import pl.wojdylak.propsi.service.dto.RentalRequestDto;
+import pl.wojdylak.propsi.model.dto.RentalRequestDto;
 
 import java.util.List;
 import java.util.Optional;

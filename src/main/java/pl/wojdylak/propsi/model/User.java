@@ -1,7 +1,5 @@
 package pl.wojdylak.propsi.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -54,6 +52,10 @@ public class User implements Serializable {
     private Set<Tenant> tenants = new HashSet<>();
 
     public User() {
+    }
+
+    public User(String email) {
+        this.email = email;
     }
 
     public User(Long id, String firstName, String lastName, String email, String password, Set<Authority> authorities) {
@@ -129,22 +131,22 @@ public class User implements Serializable {
         this.tenants = tenants;
     }
 
-    public void addOwner(Owner owner){
+    public void addOwner(Owner owner) {
         this.owners.add(owner);
         owner.getUsers().add(this);
     }
 
-    public void removeOwner(Owner owner){
+    public void removeOwner(Owner owner) {
         this.owners.remove(owner);
         owner.getUsers().remove(this);
     }
 
-    public void addTenant(Tenant tenant){
+    public void addTenant(Tenant tenant) {
         this.tenants.add(tenant);
         tenant.getUsers().add(this);
     }
 
-    public void removeTenant(Tenant tenant){
+    public void removeTenant(Tenant tenant) {
         this.tenants.remove(tenant);
         tenant.getUsers().remove(this);
     }

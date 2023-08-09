@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.wojdylak.propsi.model.Owner;
 import pl.wojdylak.propsi.model.User;
 import pl.wojdylak.propsi.service.OwnerService;
-import pl.wojdylak.propsi.service.dto.OwnerPayUCredentialsDto;
+import pl.wojdylak.propsi.model.dto.OwnerPayUCredentialsDto;
 
 import java.util.ArrayList;
 import java.util.List;

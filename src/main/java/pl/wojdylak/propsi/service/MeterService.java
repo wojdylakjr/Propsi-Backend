@@ -5,7 +5,7 @@ import pl.wojdylak.propsi.model.Meter;
 import pl.wojdylak.propsi.model.MeterMeasurement;
 import pl.wojdylak.propsi.repository.MeterMeasurementRepository;
 import pl.wojdylak.propsi.repository.MeterRepository;
-import pl.wojdylak.propsi.service.dto.MeterMeasurementRequestDto;
+import pl.wojdylak.propsi.model.dto.MeterMeasurementRequestDto;
 
 import java.util.List;
 import java.util.Optional;

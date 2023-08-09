@@ -1,14 +1,11 @@
 package pl.wojdylak.propsi.service;
 
 import org.springframework.stereotype.Service;
-import pl.wojdylak.propsi.model.Meter;
-import pl.wojdylak.propsi.model.MeterMeasurement;
 import pl.wojdylak.propsi.model.PremisesCost;
 import pl.wojdylak.propsi.model.PremisesCostDetail;
 import pl.wojdylak.propsi.repository.PremisesCostDetailRepository;
 import pl.wojdylak.propsi.repository.PremisesCostRepository;
-import pl.wojdylak.propsi.service.dto.MeterMeasurementRequestDto;
-import pl.wojdylak.propsi.service.dto.PremisesCostDetailRequestDto;
+import pl.wojdylak.propsi.model.dto.PremisesCostDetailRequestDto;
 
 import java.util.List;
 import java.util.Optional;

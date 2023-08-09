@@ -3,11 +3,10 @@ package pl.wojdylak.propsi.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.wojdylak.propsi.model.Premises;
 import pl.wojdylak.propsi.model.Rental;
 import pl.wojdylak.propsi.repository.RentalRepository;
 import pl.wojdylak.propsi.service.RentalService;
-import pl.wojdylak.propsi.service.dto.RentalRequestDto;
+import pl.wojdylak.propsi.model.dto.RentalRequestDto;
 
 import java.util.List;
 

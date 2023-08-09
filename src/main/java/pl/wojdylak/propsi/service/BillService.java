@@ -5,7 +5,7 @@ import pl.wojdylak.propsi.model.*;
 import pl.wojdylak.propsi.repository.BillLineItemRepository;
 import pl.wojdylak.propsi.repository.BillRepository;
 import pl.wojdylak.propsi.repository.PaymentRepository;
-import pl.wojdylak.propsi.service.dto.BillRequestDto;
+import pl.wojdylak.propsi.model.dto.BillRequestDto;
 import pl.wojdylak.propsi.model.payu.PayUAddOrderResponse;
 import pl.wojdylak.propsi.model.payu.PayUPaymentNotification;
 

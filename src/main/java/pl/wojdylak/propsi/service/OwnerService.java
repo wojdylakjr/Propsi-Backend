@@ -3,7 +3,7 @@ package pl.wojdylak.propsi.service;
 import org.springframework.stereotype.Service;
 import pl.wojdylak.propsi.model.Owner;
 import pl.wojdylak.propsi.repository.OwnerRepository;
-import pl.wojdylak.propsi.service.dto.OwnerPayUCredentialsDto;
+import pl.wojdylak.propsi.model.dto.OwnerPayUCredentialsDto;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;

@@ -3,6 +3,7 @@ package pl.wojdylak.propsi.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;
 import pl.wojdylak.propsi.model.*;
+import pl.wojdylak.propsi.model.dto.UserDto;
 import pl.wojdylak.propsi.model.payu.PayUAddOrderResponse;
 import pl.wojdylak.propsi.model.payu.PayUOrderRequest;
 import pl.wojdylak.propsi.model.payu.PayUTokenResponse;
@@ -42,7 +43,7 @@ public class PayUService {
     public PayUAddOrderResponse addOrder(Bill bill) throws Exception {
         Rental rental = bill.getRental();
         Owner owner = rental.getPremises().getProperty().getOwner();
-        Optional<User> currentUser = userService.getCurrentUser();
+        Optional<UserDto> currentUser = userService.getCurrentUser();
 
         if (currentUser.isEmpty()) {
             throw new Exception("User not found");
@@ -53,7 +54,7 @@ public class PayUService {
         if (owner.getPayUAccessToken() == null || owner.getPayUAccessTokenExpiration().isAfter(Instant.now())) {
             authenticate(owner.getPayUClientId(), owner.getPayUClientSecret(), owner.getId());
         }
-        User user = currentUser.get();
+        UserDto user = currentUser.get();
         String orderDescription = bill.getRental().getTenant().getName() + " monthly bill for " + LocalDate.ofInstant(bill.getDate(), ZoneId.of("Europe/Paris")).getMonth().name();
         PayUOrderRequest payUOrderRequestObject = new PayUOrderRequest(NOTIFY_URL, CUSTOMER_IP, owner.getPayUClientId(), orderDescription, CURRENCY_CODE, convertBigDecimalToString(bill.getTotalPrice()), CONTINUE_URL, bill.getId().toString());
         PayUOrderRequest.Buyer buyer = new PayUOrderRequest.Buyer(user.getEmail(), user.getFirstName(), user.getLastName());

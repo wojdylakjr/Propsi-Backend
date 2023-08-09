@@ -6,14 +6,13 @@ import org.springframework.stereotype.Service;
 import pl.wojdylak.propsi.model.*;
 import pl.wojdylak.propsi.repository.AuthorityRepository;
 import pl.wojdylak.propsi.repository.UserRepository;
-import pl.wojdylak.propsi.service.dto.ManagedUser;
-import pl.wojdylak.propsi.service.dto.UserDto;
+import pl.wojdylak.propsi.model.dto.ManagedUser;
+import pl.wojdylak.propsi.model.dto.UserDto;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -76,17 +75,20 @@ public class UserService {
     }
 
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
+//    public List<User> getAllUsers() {
+//        return userRepository.findAll();
+//    }
 
-    public Optional<User> getCurrentUser() {
+    public Optional<UserDto> getCurrentUser() {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
         System.out.println("Security context: " + name);
-        return userRepository.findByEmail(name);
+        return userRepository.findUserDtoByEmail(name); //TODO: inline and delete user variable
+    }
+    public Optional<UserDto> findUserDtoByEmail(String email){
+        return userRepository.findUserDtoByEmail(email);
     }
 
-    public User getUserById(Long userId) {
-        return this.userRepository.findById(userId).get();
-    }
+//    public User getUserById(Long userId) {
+//        return this.userRepository.findById(userId).get();
+//    }
 }

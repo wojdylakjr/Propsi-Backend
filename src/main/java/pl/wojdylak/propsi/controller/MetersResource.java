@@ -4,11 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.wojdylak.propsi.model.Meter;
 import pl.wojdylak.propsi.model.MeterMeasurement;
-import pl.wojdylak.propsi.model.PremisesCost;
 import pl.wojdylak.propsi.service.MeterService;
-import pl.wojdylak.propsi.service.PremisesCostService;
-import pl.wojdylak.propsi.service.dto.MeterMeasurementRequestDto;
-import pl.wojdylak.propsi.service.dto.RentalRequestDto;
+import pl.wojdylak.propsi.model.dto.MeterMeasurementRequestDto;
 
 import java.util.List;
 

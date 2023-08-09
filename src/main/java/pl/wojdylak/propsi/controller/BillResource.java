@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.wojdylak.propsi.model.Bill;
 import pl.wojdylak.propsi.service.BillService;
-import pl.wojdylak.propsi.service.dto.BillRequestDto;
+import pl.wojdylak.propsi.model.dto.BillRequestDto;
 import pl.wojdylak.propsi.model.payu.PayUAddOrderResponse;
 
 import java.time.Instant;

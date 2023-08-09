@@ -1,30 +1,28 @@
-package pl.wojdylak.propsi.service.dto;
+package pl.wojdylak.propsi.model.dto;
 
 import pl.wojdylak.propsi.model.Authority;
-import pl.wojdylak.propsi.model.Owner;
 import pl.wojdylak.propsi.model.Tenant;
 import pl.wojdylak.propsi.model.User;
 
-import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class UserDto {
 
-    private Long id;
+    protected Long id;
 
-    private String firstName;
+    protected String firstName;
 
-    private String lastName;
+    protected String lastName;
 
-    private String email;
+    protected String email;
 
-    private Set<String> authorities = new HashSet<>();
+    protected Set<String> authorities = new HashSet<>();
 
-    private Set<Owner> owners = new HashSet<>();
+    protected Set<OwnerDto> owners = new HashSet<>();
 
-    private Set<Tenant> tenants = new HashSet<>();
+    protected Set<Tenant> tenants = new HashSet<>();
 
     public UserDto() {
     }
@@ -36,7 +34,7 @@ public class UserDto {
         this.email = user.getEmail();
         this.authorities = user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet());
         this.tenants = user.getTenants();
-        this.owners = user.getOwners();
+        this.owners = user.getOwners().stream().map(OwnerDto::new).collect(Collectors.toSet());
     }
 
     public Long getId() {
@@ -79,11 +77,11 @@ public class UserDto {
         this.authorities = authorities;
     }
 
-    public Set<Owner> getOwners() {
+    public Set<OwnerDto> getOwners() {
         return owners;
     }
 
-    public void setOwners(Set<Owner> owners) {
+    public void setOwners(Set<OwnerDto> owners) {
         this.owners = owners;
     }
 

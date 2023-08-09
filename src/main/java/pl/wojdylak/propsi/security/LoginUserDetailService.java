@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import pl.wojdylak.propsi.model.User;
+import pl.wojdylak.propsi.model.dto.ManagedUser;
 import pl.wojdylak.propsi.repository.UserRepository;
 
 import javax.transaction.Transactional;
@@ -27,14 +27,14 @@ public class LoginUserDetailService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(username).get();
+        ManagedUser user = userRepository.findUserDtoWithPassword(username).get();
 //        if (user == null) {
 //            throw new UsernameNotFoundException("User not found");
 //        }
         List<GrantedAuthority> grantedAuthorities = user
                 .getAuthorities()
                 .stream()
-                .map(authority -> new SimpleGrantedAuthority(authority.getName()))
+                .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
 
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), grantedAuthorities);

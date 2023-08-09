@@ -28,9 +28,11 @@ public class Owner implements Serializable {
     @Column(name = "payU_client_secret")
     private String payUClientSecret;
 
+    @JsonIgnore
     @Column(name = "payU_access_token")
     private String payUAccessToken;
 
+    @JsonIgnore
     @Column(name = "payU_access_token_expiration")
     private Instant payUAccessTokenExpiration;
 

@@ -1,4 +1,4 @@
-package pl.wojdylak.propsi.service.dto;
+package pl.wojdylak.propsi.model.dto;
 
 import java.math.BigDecimal;
 import java.time.Instant;
